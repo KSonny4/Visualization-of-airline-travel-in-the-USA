@@ -14,3 +14,9 @@ https://automating-gis-processes.github.io/2017/lessons/L7/retrieve-osm-data.htm
 https://plot.ly/python/lines-on-maps/
 
 https://plot.ly/python/scatter-plots-on-maps/
+
+
+
+RESENI:
+
+https://github.com/upphiminn/d3.ForceBundle
