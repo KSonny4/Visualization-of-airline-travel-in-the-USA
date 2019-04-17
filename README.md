@@ -20,3 +20,5 @@ https://plot.ly/python/scatter-plots-on-maps/
 RESENI:
 
 https://github.com/upphiminn/d3.ForceBundle
+
+https://github.com/dts-ait/qgis-edge-bundling
