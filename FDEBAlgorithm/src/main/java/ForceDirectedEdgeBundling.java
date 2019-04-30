@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class ForceDirectedEdgeBundling {
 
     private final double stepSize;
@@ -9,22 +11,20 @@ public class ForceDirectedEdgeBundling {
     private final int subdivision_points_seed = 1;
     private final int subdivision_rate = 2;
 
-    private Flight[][] flights;
-    private Node[] nodes;
+    private List<List<Flight>> flights;
+    private Airport[] airports;
 
-    public ForceDirectedEdgeBundling(Node[] nodes, Flight[][] flights){
-        this.stepSize = 0.1;
-        this.compatibility = 0.6;
-        this.flights = flights;
-        this.nodes = nodes;
-    }
-
-    public ForceDirectedEdgeBundling(Node[] nodes, Flight[][] flights, double stepSize, double compatibility) {
+    public ForceDirectedEdgeBundling(Airport[] airports, List<List<Flight>> flights, double stepSize, double compatibility) {
         this.stepSize = stepSize;
         this.compatibility = compatibility;
         this.flights = flights;
-        this.nodes = nodes;
+        this.airports = airports;
     }
+
+    public ForceDirectedEdgeBundling(Airport[] airports, List<List<Flight>> flights){
+        this(airports, flights, 0.1, 0.7);
+    }
+
 
 
 }

@@ -9,12 +9,13 @@ import java.util.List;
 
 public class Main {
 
-    private static List<List<Flight>> edges;
-    private static Node[] nodes;
+    private static List<List<Flight>> adjacency;
+    private static Flight[]flights;
+    private static Airport[] airports;
     private int numVertices;
     private int numEdges;
 
-    private Node parseNodeData(final int ID, String data){
+    private Airport parseAirportData(final int ID, String data){
         String[] splitted = data.split("\\(");
         String name = splitted[0];
 
@@ -25,10 +26,10 @@ public class Main {
         double lngx = Double.valueOf(lngxPart.split("lngx=")[1]);
         double laty = Double.valueOf(latyPart.split("laty=")[1]);
 
-        return new Node(lngx, laty, ID, name);
+        return new Airport(lngx, laty, ID, name);
     }
 
-    public void parseInputData() throws IOException {
+    private void parseInputData() throws IOException {
 
         Graph graph = new TinkerGraph();
         GraphMLReader reader = new GraphMLReader(graph);
@@ -42,82 +43,61 @@ public class Main {
 //        System.out.println(numVertices);
 //        System.out.println(numEdges);
 
-        edges = new ArrayList<>(numVertices);
-        for (int i = 0; i < numVertices; i++) {
-            edges.add(new ArrayList<>());
-        }
 
-        nodes = new Node[numVertices];
+        flights = new Flight[numEdges];
+        airports = new Airport[numVertices];
 
         for(Vertex v : graph.getVertices()){
             int nodeID = Integer.valueOf((String) v.getId());
             String nodeData = v.getProperty("tooltip").toString();
-            nodes[nodeID] = parseNodeData(nodeID, nodeData);
+            airports[nodeID] = parseAirportData(nodeID, nodeData);
         }
 
-//        printNodes();
+//        printAirports();
+
+        adjacency = new ArrayList<>(numVertices);
+        for (int i = 0; i < numVertices; i++) {
+            adjacency.add(new ArrayList<>());
+        }
 
         for(Edge e : graph.getEdges()){
             int nodeFromID = Integer.valueOf((String)e.getVertex(Direction.OUT).getId());
             int nodeToID = Integer.valueOf((String)e.getVertex(Direction.IN).getId());
-            edges.get(nodeFromID).add(new Flight(nodes[nodeFromID], nodes[nodeToID], Integer.valueOf((String) e.getId())));
+            int flightID = Integer.valueOf((String) e.getId());
+            Flight flight = new Flight(airports[nodeFromID], airports[nodeToID], flightID);
+            adjacency.get(nodeFromID).add(flight);
+            flights[flightID] = flight;
         }
 
-        printEdges();
+        printAdjacency();
 
+        printFlights();
 
     }
 
-    public void printNodes(){
-        Arrays.stream(nodes).forEach(System.out::println);
+    private void printAirports(){
+        Arrays.stream(airports).forEach(System.out::println);
     }
 
-    public void printEdges(){
+    private void printAdjacency(){
         for (int i = 0; i < numVertices; i++) {
             System.out.println("Edges from node " + i + ":");
-            for(Flight flight : edges.get(i)){
+            for(Flight flight : adjacency.get(i)){
                 System.out.println(flight);
             }
         }
+    }
+
+    private void printFlights(){
+        Arrays.stream(flights).forEach(System.out::println);
     }
 
     public static void main(String[] args) throws IOException {
         Main m  = new Main();
         m.parseInputData();
 
-//        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(nodes, edges);
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, adjacency);
 
-
-//        Graph graph = new TinkerGraph();
-//        GraphMLReader reader = new GraphMLReader(graph);
-//
-//        InputStream is = new BufferedInputStream(new FileInputStream("./res/graph.xml"));
-//        reader.inputGraph(is);
-//
-//        Iterable<Vertex> vertices = graph.getVertices();
-//        Iterator<Vertex> verticesIterator = vertices.iterator();
-//
-//        while (verticesIterator.hasNext()) {
-//
-//            Vertex vertex = verticesIterator.next();
-//            Iterable<Flight> edges
-//            Iterator<Flight> edgesIterator = edges.iterator();
-//
-//            while (edgesIterator.hasNext()) {
-//
-//                Flight edge = edgesIterator.next();
-//                Vertex outVertex = edge.getOutVertex();
-//                Vertex inVertex = edge.getInVertex();
-//
-//                String person = (String) outVertex.getProperty("name");
-//                String knownPerson = (String) inVertex.getProperty("name");
-//                int since = (Integer) edge.getProperty("since");
-//
-//                String sentence = person + " " + edge.getLabel() + " " + knownPerson
-//                        + " since " + since + ".";
-//                System.out.println(sentence);
-//            }
-//        }
     }
 
 }

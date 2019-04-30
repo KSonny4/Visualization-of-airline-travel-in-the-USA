@@ -1,16 +1,16 @@
-public class Node {
+public class Airport {
 
     private final Coordinate position;
     private final int ID;
     private final String name;
 
-    public Node(Coordinate position, int ID, String name) {
+    public Airport(Coordinate position, int ID, String name) {
         this.position = position;
         this.ID = ID;
         this.name = name;
     }
 
-    public Node(double x, double y, int ID, String name){
+    public Airport(double x, double y, int ID, String name){
         this.position = new Coordinate(x, y);
         this.ID = ID;
         this.name = name;
@@ -31,7 +31,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" +
+        return "Airport{" +
                 "position=" + position +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +

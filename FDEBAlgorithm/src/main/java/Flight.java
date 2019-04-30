@@ -1,28 +1,28 @@
 public class Flight {
 
-    private Node from;
-    private Node to;
+    private Airport from;
+    private Airport to;
     private final int ID;
 
-    public Flight(Node from, Node to, final int ID) {
+    public Flight(Airport from, Airport to, final int ID) {
         this.from = from;
         this.to = to;
         this.ID = ID;
     }
 
-    public Node getFrom() {
+    public Airport getFrom() {
         return from;
     }
 
-    public void setFrom(Node from) {
+    public void setFrom(Airport from) {
         this.from = from;
     }
 
-    public Node getTo() {
+    public Airport getTo() {
         return to;
     }
 
-    public void setTo(Node to) {
+    public void setTo(Airport to) {
         this.to = to;
     }
 
@@ -34,6 +34,6 @@ public class Flight {
     public String toString() {
         return "Flight with id " + ID +
                 " from: " + from +
-                ", to:" + to;
+                ", to: " + to;
     }
 }
