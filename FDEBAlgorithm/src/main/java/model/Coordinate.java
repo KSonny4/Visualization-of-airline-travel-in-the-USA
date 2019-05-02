@@ -1,3 +1,5 @@
+package model;
+
 public class Coordinate {
 
     private double x;
@@ -12,20 +14,22 @@ public class Coordinate {
         return x;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void alterBy(double x, double y) {
+        this.x += x;
+        this.y += y;
     }
 
     public double getY() {
         return y;
     }
 
-    public void setY(double y) {
-        this.y = y;
+
+    public double dotProduct(Coordinate other){
+        return this.x * other.x + this.y * other.y;
     }
 
-    public Coordinate dotProduct(Coordinate other){
-        return new Coordinate(this.x * other.x, this.y * other.y);
+    public double euclideanDistance(Coordinate other){
+        return Math.sqrt(Math.pow(this.x - other.getX(), 2) + Math.pow(this.y- other.getX(), 2));
     }
 
     @Override

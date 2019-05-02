@@ -1,21 +1,24 @@
 import com.tinkerpop.blueprints.*;
-import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
+import model.Node;
+import model.Edge;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class Main {
 
-    private static List<List<Flight>> adjacency;
-    private static Flight[]flights;
-    private static Airport[] airports;
-    private int numVertices;
+    private static List<List<Edge>> adjacency;
+    private static Edge[] flights;
+    private static Node[] airports;
+    private int numNodes;
     private int numEdges;
 
-    private Airport parseAirportData(final int ID, String data){
+    private Node parseAirportData(final int ID, String data){
         String[] splitted = data.split("\\(");
         String name = splitted[0];
 
@@ -26,7 +29,7 @@ public class Main {
         double lngx = Double.valueOf(lngxPart.split("lngx=")[1]);
         double laty = Double.valueOf(latyPart.split("laty=")[1]);
 
-        return new Airport(lngx, laty, ID, name);
+        return new Node(lngx, laty, ID, name);
     }
 
     private void parseInputData() throws IOException {
@@ -37,15 +40,11 @@ public class Main {
         InputStream is = new BufferedInputStream(new FileInputStream("src/main/resources/airlines.graphml"));
         reader.inputGraph(is);
 
-        numVertices = (int)graph.getVertices().spliterator().getExactSizeIfKnown();
+        numNodes = (int)graph.getVertices().spliterator().getExactSizeIfKnown();
         numEdges = (int)graph.getEdges().spliterator().getExactSizeIfKnown();
 
-//        System.out.println(numVertices);
-//        System.out.println(numEdges);
-
-
-        flights = new Flight[numEdges];
-        airports = new Airport[numVertices];
+        flights = new Edge[numEdges];
+        airports = new Node[numNodes];
 
         for(Vertex v : graph.getVertices()){
             int nodeID = Integer.valueOf((String) v.getId());
@@ -55,23 +54,23 @@ public class Main {
 
 //        printAirports();
 
-        adjacency = new ArrayList<>(numVertices);
-        for (int i = 0; i < numVertices; i++) {
+        adjacency = new ArrayList<>(numNodes);
+        for (int i = 0; i < numNodes; i++) {
             adjacency.add(new ArrayList<>());
         }
 
-        for(Edge e : graph.getEdges()){
+        for(com.tinkerpop.blueprints.Edge e : graph.getEdges()){
             int nodeFromID = Integer.valueOf((String)e.getVertex(Direction.OUT).getId());
             int nodeToID = Integer.valueOf((String)e.getVertex(Direction.IN).getId());
             int flightID = Integer.valueOf((String) e.getId());
-            Flight flight = new Flight(airports[nodeFromID], airports[nodeToID], flightID);
-            adjacency.get(nodeFromID).add(flight);
-            flights[flightID] = flight;
+            Edge edge = new Edge(airports[nodeFromID], airports[nodeToID], flightID);
+            adjacency.get(nodeFromID).add(edge);
+            flights[flightID] = edge;
         }
 
-        printAdjacency();
+//        printAdjacency();
 
-        printFlights();
+//        printFlights();
 
     }
 
@@ -80,10 +79,10 @@ public class Main {
     }
 
     private void printAdjacency(){
-        for (int i = 0; i < numVertices; i++) {
+        for (int i = 0; i < numNodes; i++) {
             System.out.println("Edges from node " + i + ":");
-            for(Flight flight : adjacency.get(i)){
-                System.out.println(flight);
+            for(Edge edge : adjacency.get(i)){
+                System.out.println(edge);
             }
         }
     }
@@ -92,11 +91,22 @@ public class Main {
         Arrays.stream(flights).forEach(System.out::println);
     }
 
+    private void printEdgeSubdivisions(List<List<Node>> edgeSubdivisions){
+        for (int i = 0; i < edgeSubdivisions.size(); i++) {
+            System.out.println(flights[i]);
+            for(Node point : edgeSubdivisions.get(i)){
+                System.out.println("\t " + point.getPosition());
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Main m  = new Main();
         m.parseInputData();
 
-        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, adjacency);
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, adjacency);
+        List<List<Node>> edges = fdeb.run();
+        m.printEdgeSubdivisions(edges);
 
     }
 

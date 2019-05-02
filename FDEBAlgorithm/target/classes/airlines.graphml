@@ -1186,7 +1186,7 @@
       <data key="y">-383.66667</data>
     </node>
 
-    <!-- flights -->
+    <!-- adjacency -->
     <edge id="0" source="0" target="136">
     </edge>
     <edge id="1" source="0" target="154">
