@@ -10,9 +10,9 @@ public class ForceDirectedEdgeBundling {
     private final double STEP_SIZE;
     private final double COMPATIBILITY;
     private final double EDGE_STIFFNESS = 0.1;
-    private final int ITERATIONS_COUNT = 10;
+    private final int ITERATIONS_COUNT = 90;
     private final double ITERATIONS_INCREASE_RATE = 0.666;
-    private final int CYCLES_COUNT = 5;
+    private final int CYCLES_COUNT = 6;
     private final int SUBDIVISION_POINTS = 1;
     private final int SUBDIVISION_POINTS_RATE = 2;
     private final double EPS = 0.000001;
@@ -41,14 +41,14 @@ public class ForceDirectedEdgeBundling {
     }
 
     /**
-     * Constructor with default values of stepSize and COMPATIBILITY.
+     * Constructor with default values of STEP_SIZE and COMPATIBILITY.
      *
      * @param airports
      * @param flights
      * @param adjacency
      */
     public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights, List<List<Edge>> adjacency){
-        this(airports, flights,  adjacency, 0.1, 0.7);
+        this(airports, flights,  adjacency, 0.1, 0.6);
     }
 
     public List<List<Node>> run(){
@@ -69,7 +69,8 @@ public class ForceDirectedEdgeBundling {
 
                 List<List<Coordinate>> forces = new ArrayList<>(flights.length);
                 for (int i = 0; i < flights.length ; i++) {
-                    forces.add(applyForces(i, subdivisionPoints, stepSize));
+                    List<Coordinate> frcs = applyForces(i, subdivisionPoints, stepSize);
+                    forces.add(frcs);
                 }
 
                 for (int i = 0; i < flights.length; i++) {
@@ -162,7 +163,7 @@ public class ForceDirectedEdgeBundling {
             Coordinate electroStaticForce = calculateElectrostaticForce(edgeID, i);
 
             x = S * (springForce.getX() + electroStaticForce.getX());
-            y = S * (electroStaticForce.getY() + electroStaticForce.getY());
+            y = S * (springForce.getY() + electroStaticForce.getY());
 
             forces.add(new Coordinate(x, y));
 
@@ -212,14 +213,12 @@ public class ForceDirectedEdgeBundling {
                 edgeSubdivisions.get(i).clear();
                 edgeSubdivisions.get(i).addAll(newEdgeSubdivisions);
 
-                System.out.println("new edge size: " + newEdgeSubdivisions.size());
-                System.out.println("edge size: " + edgeSubdivisions.get(i).size());
             }
         }
     }
 
     private void calculateCompatibilities(){
-        for (int i = 0; i < flights.length; i++) {
+        for (int i = 0; i < flights.length - 1; i++) {
             for (int j = i + 1; j < flights.length; j++) {
                 if(flights[i].compatible(flights[j], COMPATIBILITY)){
                     edgeCompatibility.get(i).add(flights[j]);

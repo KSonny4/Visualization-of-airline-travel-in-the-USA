@@ -29,7 +29,7 @@ public class Coordinate {
     }
 
     public double euclideanDistance(Coordinate other){
-        return Math.sqrt(Math.pow(this.x - other.getX(), 2) + Math.pow(this.y- other.getX(), 2));
+        return Math.sqrt(Math.pow(this.x - other.getX(), 2) + Math.pow(this.y- other.getY(), 2));
     }
 
     @Override

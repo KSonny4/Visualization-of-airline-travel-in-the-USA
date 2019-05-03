@@ -44,7 +44,6 @@ public class Edge {
             return EPS;
         }
 
-//        return Math.sqrt(Math.pow(from.getPosition().getX() - to.getPosition().getX(), 2) + Math.pow(from.getPosition().getX() - to.getPosition().getX(), 2));
         return from.getPosition().euclideanDistance(to.getPosition());
     }
 
@@ -53,8 +52,8 @@ public class Edge {
     }
 
     public Coordinate getMidpoint(){
-        return new Coordinate((from.getPosition().getX() - to.getPosition().getX()) / 2.0,
-                (from.getPosition().getY() - to.getPosition().getY()) / 2.0);
+        return new Coordinate((from.getPosition().getX() + to.getPosition().getX()) / 2.0,
+                (from.getPosition().getY() + to.getPosition().getY()) / 2.0);
     }
 
     public double getDividedEdgeLength(List<Node> subdivisionPoints){
@@ -67,6 +66,7 @@ public class Edge {
     }
 
     public double angleCompatibility(Edge other){
+
         return Math.abs(this.asVector().dotProduct(other.asVector()) / (this.getLength() * other.getLength()));
     }
 
@@ -97,7 +97,8 @@ public class Edge {
     }
 
     public double compatibilityScore(Edge other){
-        return this.angleCompatibility(other) + this.scaleCompatibility(other) + this.positionCompatibility(other) + this.visibilityCompatibilitu(other);
+
+        return this.angleCompatibility(other) * this.scaleCompatibility(other) *  this.positionCompatibility(other)*  this.visibilityCompatibilitu(other);
     }
 
     public boolean compatible(Edge other, double threshold){

@@ -40,9 +40,9 @@ public class Node {
                 (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()) *
                         (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()));
         double r = ((other.getFrom().getPosition().getY() - this.position.getY()) *
-                (other.getFrom().getPosition().getY() - other.getTo().getPosition().getY()) +
-                (other.getTo().getPosition().getX() - this.position.getX()) *
-                        (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX()));
+                (other.getFrom().getPosition().getY() - other.getTo().getPosition().getY()) -
+                (other.getFrom().getPosition().getX() - this.position.getX()) *
+                        (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX())) / (L*L);
 
         return new Node(other.getFrom().getPosition().getX() + r * (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX()),
                 other.getFrom().getPosition().getY() + r * (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()));
