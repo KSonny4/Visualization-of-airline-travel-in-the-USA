@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b631cd1-cbe9-4a95-8667-cd6e7d95a147" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Util.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Coordinate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Edge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ForceDirectedEdgeBundling.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ForceDirectedEdgeBundling.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Util.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Edge.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Edge.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/results.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -30,10 +22,9 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="150" selection-start-line="150" selection-end-line="150" />
+            <state relative-caret-position="30">
+              <caret line="2" column="62" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#parseAirportData#0;class#Main#0" />
                 <element signature="method#printResultsToFileJson#0;class#Main#0" />
               </folding>
@@ -44,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+            <state relative-caret-position="630">
+              <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -135,8 +126,8 @@
         <option value="$PROJECT_DIR$/src/main/java/model/Coordinate.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Node.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Edge.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java" />
       </list>
     </option>
   </component>
@@ -267,16 +258,15 @@
       <workItem from="1556624004153" duration="1536000" />
       <workItem from="1556628664119" duration="6297000" />
       <workItem from="1556786253738" duration="18070000" />
-      <workItem from="1556879468565" duration="16406000" />
+      <workItem from="1556879468565" duration="17060000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42309000" />
+    <option name="totallyTimeSpent" value="42963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="25" width="1551" height="875" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2013289" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -287,7 +277,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32841823" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20107238" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35656837" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -374,16 +364,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
@@ -415,12 +395,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ForceDirectedEdgeBundling.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="150" selection-start-line="150" selection-end-line="150" />
+        <state relative-caret-position="630">
+          <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="62" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
+          <folding>
             <element signature="method#parseAirportData#0;class#Main#0" />
             <element signature="method#printResultsToFileJson#0;class#Main#0" />
           </folding>

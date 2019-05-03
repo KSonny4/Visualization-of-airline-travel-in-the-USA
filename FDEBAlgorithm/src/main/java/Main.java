@@ -1,10 +1,8 @@
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
-import jdk.nashorn.internal.parser.JSONParser;
 import model.Node;
 import model.Edge;
-import org.codehaus.jettison.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;

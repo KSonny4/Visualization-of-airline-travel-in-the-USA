@@ -9,7 +9,7 @@ public class ForceDirectedEdgeBundling {
 
     private final double STEP_SIZE;
     private final double COMPATIBILITY;
-    private final double EDGE_STIFFNESS = 0.1;
+    private final double EDGE_STIFFNESS = 0.9;
     private final int ITERATIONS_COUNT = 90;
     private final double ITERATIONS_INCREASE_RATE = 0.666;
     private final int CYCLES_COUNT = 6;
