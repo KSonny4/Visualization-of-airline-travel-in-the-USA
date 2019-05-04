@@ -39,6 +39,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField iterations_count;
 
 
+    //TODO mozna scrolling?
+    //https://stackoverflow.com/questions/31593859/zoom-levels-with-the-javafx-8-canvas
 
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
@@ -83,6 +85,8 @@ public class FXMLDocumentController implements Initializable {
 
 
         GraphicsContext gc = canvasID.getGraphicsContext2D();
+        canvasID.setScaleX(2);
+        canvasID.setScaleY(2);
         gc.clearRect(0, 0, canvasID.getWidth(), canvasID.getHeight());
 
 //        biggest x = 1000
