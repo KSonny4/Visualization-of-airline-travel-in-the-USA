@@ -1,5 +1,9 @@
 package model;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import model.Coordinate;
 import model.Node;
 import model.Edge;
@@ -9,12 +13,13 @@ import java.util.List;
 
 public class ForceDirectedEdgeBundling {
 
-    private final double STEP_SIZE;
-    private final double COMPATIBILITY;
-    private final double EDGE_STIFFNESS = 0.9;
-    private final int ITERATIONS_COUNT = 90;
+
+    private double STEP_SIZE;
+    private double COMPATIBILITY;
+    private double EDGE_STIFFNESS = 0.9;
+    private int ITERATIONS_COUNT = 90;
     private final double ITERATIONS_INCREASE_RATE = 0.666;
-    private final int CYCLES_COUNT = 6;
+    private int CYCLES_COUNT = 6;
     private final int SUBDIVISION_POINTS = 1;
     private final int SUBDIVISION_POINTS_RATE = 2;
     private final double EPS = 0.000001;
@@ -25,6 +30,7 @@ public class ForceDirectedEdgeBundling {
     private List<List<Node>> edgeSubdivisions;
     private List<List<Edge>> edgeCompatibility;
 
+
     /**
      * Constructor with specified values of STEP_SIZE and COMPATIBILITY.
      *
@@ -34,9 +40,27 @@ public class ForceDirectedEdgeBundling {
      * @param STEP_SIZE
      * @param COMPATIBILITY
      */
-    public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights, List<List<Edge>> adjacency, final double STEP_SIZE, double COMPATIBILITY) {
+    public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights, List<List<Edge>> adjacency, double STEP_SIZE, double COMPATIBILITY) {
         this.STEP_SIZE = STEP_SIZE;
         this.COMPATIBILITY = COMPATIBILITY;
+        this.adjacency = adjacency;
+        this.airports = airports;
+        this.flights = flights;
+    }
+
+
+
+//        EDGE_STIFFNESS
+//                ITERATIONS_COUNT
+//        CYCLES_COUNT
+
+    public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights, List<List<Edge>> adjacency, double STEP_SIZE, double COMPATIBILITY, double EDGE_STIFFNESS
+    , int ITERATIONS_COUNT, int CYCLES_COUNT) {
+        this.STEP_SIZE = STEP_SIZE;
+        this.COMPATIBILITY = COMPATIBILITY;
+        this.EDGE_STIFFNESS = EDGE_STIFFNESS;
+        this.ITERATIONS_COUNT = ITERATIONS_COUNT;
+        this.CYCLES_COUNT = CYCLES_COUNT;
         this.adjacency = adjacency;
         this.airports = airports;
         this.flights = flights;
@@ -53,6 +77,7 @@ public class ForceDirectedEdgeBundling {
         this(airports, flights,  adjacency, 0.1, 0.6);
     }
 
+
     public List<List<Node>> run(){
         double stepSize = STEP_SIZE;
         double iterations = ITERATIONS_COUNT;
@@ -63,8 +88,11 @@ public class ForceDirectedEdgeBundling {
         updateEdgeSubdivisions(subdivisionPoints);
         calculateCompatibilities();
 
+        double progress_part = 1 / CYCLES_COUNT;
+        double prog = progress_part;
         for (int cycle = 0; cycle < CYCLES_COUNT; cycle++) {
             System.out.println("cycle: " + cycle);
+
 
             for (int iter = 0; iter < iterations; iter++) {
                 System.out.println("iteration: " + iter);

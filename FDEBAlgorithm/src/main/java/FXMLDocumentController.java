@@ -4,8 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import model.ForceDirectedEdgeBundling;
@@ -13,6 +13,8 @@ import model.Node;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,20 +22,68 @@ import java.util.ResourceBundle;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
+    private BorderPane borderPane;
+    @FXML
     private Button visualiseButton;
     @FXML
     private Canvas canvasID;
+    @FXML
+    private TextField compability;
+    @FXML
+    private TextField step_size;
+    @FXML
+    private TextField edge_stiffness;
+    @FXML
+    private TextField cycles_count;
+    @FXML
+    private TextField iterations_count;
+
+
 
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
+
+
+        String c = compability.getText();
+        String s = step_size.getText();
+        String e = edge_stiffness.getText();
+        String i = iterations_count.getText();
+        String cy = cycles_count.getText();
+
+        double COMPABILITY = Double.parseDouble(c);
+        double STEP_SIZE = Double.parseDouble(s);
+        double EDGE_STIFFNESS = Double.parseDouble(e);
+        int ITERATIONS_COUNT = Integer.parseInt(i);
+        int CYCLES_COUNT = Integer.parseInt(cy);
+
+        COMPABILITY = (COMPABILITY < 0 || COMPABILITY > 1) ? 0.6 : COMPABILITY;
+        STEP_SIZE =  (STEP_SIZE < 0 || STEP_SIZE > 1) ? 0.1 : STEP_SIZE;
+        EDGE_STIFFNESS =  (EDGE_STIFFNESS < 0 || EDGE_STIFFNESS > 1) ? 0.9 : EDGE_STIFFNESS;
+        ITERATIONS_COUNT =  (ITERATIONS_COUNT < 0 || ITERATIONS_COUNT > 90) ? 90 : ITERATIONS_COUNT;
+        CYCLES_COUNT =  (CYCLES_COUNT < 0 || CYCLES_COUNT > 6) ? 6 : CYCLES_COUNT;
+
+
+        compability.setText(String.valueOf(COMPABILITY));
+        step_size.setText(String.valueOf(STEP_SIZE));
+        edge_stiffness.setText(String.valueOf(EDGE_STIFFNESS));
+        iterations_count.setText(String.valueOf(ITERATIONS_COUNT));
+        cycles_count.setText(String.valueOf(CYCLES_COUNT));
+
+
+
         Main m = new Main();
         m.loadInputData();
-        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(m.airports, m.flights, m.adjacency);
+
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(m.airports, m.flights,m.adjacency, STEP_SIZE, COMPABILITY, EDGE_STIFFNESS,ITERATIONS_COUNT, CYCLES_COUNT);
+        //ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(m.airports, m.flights, m.adjacency,STEP_SIZE, COMPABILITY);
         List<List<Node>> edges = fdeb.run();
 
 
 
+
+
         GraphicsContext gc = canvasID.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvasID.getWidth(), canvasID.getHeight());
 
 //        biggest x = 1000
 //        smallest x = 50
@@ -47,11 +97,6 @@ public class FXMLDocumentController implements Initializable {
             gc.setFill(Color.BLUE);
             gc.fillOval(x-3, y-3, 7, 7);
         }
-
-        //drawLine(gc, 1000, 560, 50, 50);
-        //drawCurve(gc, 1000, 560, 300, 300, 50, 50);
-
-
 
 
         for(List<Node> nodes : edges){
@@ -135,6 +180,37 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        read(compability);
+        read(step_size);
+        read(iterations_count);
+        read(cycles_count);
+        read(edge_stiffness);
+    }
 
+
+
+    private void read(TextField field){
+        DecimalFormat format = new DecimalFormat( "#.0" );
+
+
+        field.setTextFormatter( new TextFormatter<>(c ->
+        {
+            if ( c.getControlNewText().isEmpty() )
+            {
+                return c;
+            }
+
+            ParsePosition parsePosition = new ParsePosition( 0 );
+            Object object = format.parse( c.getControlNewText(), parsePosition );
+
+            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+            {
+                return null;
+            }
+            else
+            {
+                return c;
+            }
+        }));
     }
 }
