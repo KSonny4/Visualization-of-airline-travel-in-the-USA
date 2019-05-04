@@ -95,7 +95,8 @@ public class FXMLDocumentController implements Initializable {
             double y = airport.getPosition().getY();
 
             gc.setFill(Color.BLUE);
-            gc.fillOval(x-3, y-3, 7, 7);
+            int OK = 3;
+            gc.fillOval(x-OK, y-OK, 7, 7);
         }
 
 

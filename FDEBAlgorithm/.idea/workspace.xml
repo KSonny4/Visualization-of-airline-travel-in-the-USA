@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adefc413-30d2-493b-884b-224490b09695" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FXMLDocument.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/FXMLDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FXMLDocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RunGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RunGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/ForceDirectedEdgeBundling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/ForceDirectedEdgeBundling.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXMLDocumentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXMLDocumentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/ForceDirectedEdgeBundling.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/ForceDirectedEdgeBundling.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -27,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/FXMLDocumentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="84" selection-start-line="84" selection-end-line="84" />
+            <state relative-caret-position="279">
+              <caret line="98" column="34" selection-start-line="98" selection-start-column="34" selection-end-line="98" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -209,12 +203,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1556976003349</updated>
-      <workItem from="1556976009490" duration="17548000" />
+      <workItem from="1556976009490" duration="17842000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17548000" />
+    <option name="totallyTimeSpent" value="17842000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
@@ -363,8 +357,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FXMLDocumentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="84" selection-start-line="84" selection-end-line="84" />
+        <state relative-caret-position="279">
+          <caret line="98" column="34" selection-start-line="98" selection-start-column="34" selection-end-line="98" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
