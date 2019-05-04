@@ -1,6 +1,7 @@
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
+import model.ForceDirectedEdgeBundling;
 import model.Node;
 import model.Edge;
 
@@ -12,9 +13,9 @@ import java.util.List;
 
 public class Main {
 
-    private static List<List<Edge>> adjacency;
-    private static Edge[] flights;
-    private static Node[] airports;
+    public static List<List<Edge>> adjacency;
+    public static Edge[] flights;
+    public static Node[] airports;
     private int numNodes;
     private int numEdges;
 
@@ -45,7 +46,7 @@ public class Main {
      *
      * @throws IOException
      */
-    private void loadInputData() throws IOException {
+    public void loadInputData() throws IOException {
 
         Graph graph = new TinkerGraph();
         GraphMLReader reader = new GraphMLReader(graph);
