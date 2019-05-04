@@ -31,6 +31,8 @@ public class FXMLDocumentController implements Initializable {
         ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(m.airports, m.flights, m.adjacency);
         List<List<Node>> edges = fdeb.run();
 
+
+
         GraphicsContext gc = canvasID.getGraphicsContext2D();
 
 //        biggest x = 1000
@@ -43,7 +45,7 @@ public class FXMLDocumentController implements Initializable {
             double y = airport.getPosition().getY();
 
             gc.setFill(Color.BLUE);
-            gc.fillOval(x, y, 7, 7);
+            gc.fillOval(x-3, y-3, 7, 7);
         }
 
         //drawLine(gc, 1000, 560, 50, 50);
@@ -61,34 +63,13 @@ public class FXMLDocumentController implements Initializable {
             drawSomething(gc, createPath(points));
         }
 
-
-//        double[] points = new double[24];
-//        for (int i = 0; i < 24; i += 8) {
-//            double x = (1 + i / 8) * 200;
-//            points[i] = x;
-//            points[i + 1] = 200;
-//            points[i + 2] = x;
-//            points[i + 3] = 400;
-//            points[i + 4] = x + 100;
-//            points[i + 5] = 400;
-//            points[i + 6] = x + 100;
-//            points[i + 7] = 200;
-//        }
-
-
-
-
-
-
-
     }
 
     private void drawSomething(GraphicsContext gc, Path pathList) {
 
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.RED);
-        gc.setLineWidth(1);
-
+        gc.setStroke(Color.rgb(0, 0, 230, 0.1));
+        gc.setFill(Color.rgb(0, 0, 230, 0.1));
+        gc.setLineWidth(0.7);
 
         ObservableList<PathElement> l = pathList.getElements();
 
@@ -104,34 +85,7 @@ public class FXMLDocumentController implements Initializable {
         gc.closePath();
     }
 
-    private void drawCurve(GraphicsContext gc, double start_x, double start_y, double pres_x, double pres_y, double end_x, double end_y) {
-        // Set line width
-        gc.setLineWidth(1.0);
-        // Set the Color
-        gc.setStroke(Color.GREEN);
-        // Set fill color
-        gc.setFill(Color.LIGHTCYAN);
 
-        // Start the Path
-        gc.beginPath();
-        // Make different Paths
-        gc.moveTo(start_x, start_y);
-
-        gc.quadraticCurveTo(pres_x, pres_y, end_x, end_y);
-
-        //gc.fill();
-        // End the Path
-        //gc.closePath();
-        // Draw the Path
-        gc.stroke();
-    }
-
-    private void drawLine(GraphicsContext gc, double from_x, double from_y, double to_x, double to_y) {
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.BLUE);
-        gc.setLineWidth(1);
-        gc.strokeLine(from_x, from_y, to_x, to_y);
-    }
 
 
     private Path createPath(ArrayList<Double> points) {
