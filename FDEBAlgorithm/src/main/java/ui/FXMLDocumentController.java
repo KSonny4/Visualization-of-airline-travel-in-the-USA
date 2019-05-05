@@ -46,6 +46,13 @@ public class FXMLDocumentController implements Initializable {
     //TODO mozna scrolling?
     //https://stackoverflow.com/questions/31593859/zoom-levels-with-the-javafx-8-canvas
 
+    //TODO Long,lat na x a y
+    //TODO Visualise button zobrazit processing
+    //TODO ať se vejde graf na každém monitoru
+    //TODO Zmáčknout Button a zakázat ho než doběhne alg
+    //TODO Zoom na gui
+
+
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
 
