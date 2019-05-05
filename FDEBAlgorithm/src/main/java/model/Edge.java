@@ -18,16 +18,8 @@ public class Edge {
         return from;
     }
 
-    public void setFrom(Node from) {
-        this.from = from;
-    }
-
     public Node getTo() {
         return to;
-    }
-
-    public void setTo(Node to) {
-        this.to = to;
     }
 
     public int getID() {
@@ -104,8 +96,6 @@ public class Edge {
     public boolean compatible(Edge other, double threshold){
         return compatibilityScore(other) >= threshold;
     }
-
-
 
 
     @Override
