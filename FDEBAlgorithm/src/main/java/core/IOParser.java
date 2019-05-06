@@ -16,7 +16,13 @@ public class IOParser {
     private static Edge[] flights;
     private static Node[] airports;
 
-
+    /**
+     * Initializes IOParser with specified {@code path}.
+     * Loads data from file on specified path in expected GraphML format.
+     *
+     * @param pathToFile
+     * @throws IOException
+     */
     public IOParser(String pathToFile) throws IOException {
         loadInputData(pathToFile);
     }
@@ -131,22 +137,42 @@ public class IOParser {
     }
 
     @SuppressWarnings("unused")
-    public void printToJson(List<List<Node>>edges) throws FileNotFoundException, UnsupportedEncodingException {
+//    public void printToJson(List<List<Node>>edges) throws FileNotFoundException, UnsupportedEncodingException {
+    public void printToJson(Edge[]edges) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter("src/main/resources/results.js", "UTF-8");
         writer.println("var results = [");
-        int i = 0;
-        for(List<Node> edge : edges){
+
+        for (int j = 0; j < edges.length; j++) {
             writer.print("[");
             int idx = 0;
-            for(Node point : edge){
+            for(Node point : edges[j].getSubdivisionPoints()){
                 writer.print("{\"x\":" + point.getPosition().getX() + ", \"y\":" + point.getPosition().getY() + "}");
-                if(++idx < edge.size())
-                    writer.println(",");
+                if(++idx < edges[j].getSubdivisionPoints().size()){
+                    writer.print(",");
+                }
             }
             writer.print("]");
-            if(++i < edges.size())
+            if(j < edges.length -1){
                 writer.print(",");
+            }
+//            writer.print("]");
+//            if(++i < edges.size())
+//                writer.print(",");
         }
+//        int i = 0;
+//
+//        for(List<Node> edge : edges){
+//            writer.print("[");
+//            int idx = 0;
+//            for(Node point : edge){
+//                writer.print("{\"x\":" + point.getPosition().getX() + ", \"y\":" + point.getPosition().getY() + "}");
+//                if(++idx < edge.size())
+//                    writer.println(",");
+//            }
+//            writer.print("]");
+//            if(++i < edges.size())
+//                writer.print(",");
+//        }
 
         writer.println("]");
         writer.close();

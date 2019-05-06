@@ -19,10 +19,10 @@ public class Main {
         Edge[] flights = parser.getFlights();
 
         ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights);
-        List<List<Node>> edges = fdeb.run();
+        fdeb.run();
 
 //        parser.printBundledEdges(edges);
-//        parser.printToJson(edges);
+        parser.printToJson(flights);
     }
 
 }

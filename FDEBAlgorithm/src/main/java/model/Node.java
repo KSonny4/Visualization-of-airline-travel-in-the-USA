@@ -6,12 +6,27 @@ public class Node {
     private final int ID;
     private final String name;
 
+    /**
+     * Creates new Node instance with given x,y coordinated and specified ID and name.
+     *
+     * @param x
+     * @param y
+     * @param ID
+     * @param name
+     */
     public Node(double x, double y, int ID, String name){
         this.position = new Coordinate(x, y);
         this.ID = ID;
         this.name = name;
     }
 
+    /**
+     * Creates new Node instance with given x,y coordinates.
+     * ID and name will be set to default values, -1 and 'custom' respectively.
+     *
+     * @param x
+     * @param y
+     */
     public Node(double x, double y){
         this.position = new Coordinate(x,y);
         this.ID = -1;

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Edge {
@@ -7,11 +8,38 @@ public class Edge {
     private Node from;
     private Node to;
     private final int ID;
+    private List<Node> subdivisionPoints;
+    private List<Edge> compatibleEdges;
 
+    /**
+     * Creates new Edge instance with endpoints in {@code from} and {@code to}, with given ID.
+     *
+     * @param from
+     * @param to
+     * @param ID
+     */
     public Edge(Node from, Node to, final int ID) {
         this.from = from;
         this.to = to;
         this.ID = ID;
+        this.subdivisionPoints = new ArrayList<>();
+        this.compatibleEdges = new ArrayList<>();
+    }
+
+    public List<Node> getSubdivisionPoints() {
+        return subdivisionPoints;
+    }
+
+    public List<Edge> getCompatibleEdges() {
+        return compatibleEdges;
+    }
+
+    public void setSubdivisionPoints(List<Node> subdivisionPoints) {
+        this.subdivisionPoints = subdivisionPoints;
+    }
+
+    public void addCompatibleEdge(Edge edge) {
+        this.compatibleEdges.add(edge);
     }
 
     public Node getFrom() {
@@ -20,10 +48,6 @@ public class Edge {
 
     public Node getTo() {
         return to;
-    }
-
-    public int getID() {
-        return ID;
     }
 
     public Coordinate asVector(){
