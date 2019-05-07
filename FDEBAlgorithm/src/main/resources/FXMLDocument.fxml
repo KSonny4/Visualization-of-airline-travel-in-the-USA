@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FXMLDocumentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FXMLDocumentController">
    <right>
       <VBox prefHeight="800.0" prefWidth="213.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,6 +20,11 @@
             <TextField fx:id="iterations_count" text="90" />
             <Label alignment="CENTER" text="Cycles count" />
             <TextField fx:id="cycles_count" text="6" />
+            <Label fx:id="updateMeLabel" text="Update me">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Label>
             <Button fx:id="visualiseButton" mnemonicParsing="false" onAction="#handleVisButtonAction" prefHeight="152.0" prefWidth="190.0" text="Visualise">
                <VBox.margin>
                   <Insets left="10.0" top="150.0" />
@@ -29,7 +34,7 @@
       </VBox>
    </right>
    <left>
-      <Canvas fx:id="canvasID" height="469.0" width="722.0" BorderPane.alignment="CENTER">
+      <Canvas fx:id="canvasID" height="640.0" width="1126.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="60.0" />
          </BorderPane.margin></Canvas>
