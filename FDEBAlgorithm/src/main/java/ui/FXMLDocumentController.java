@@ -78,10 +78,10 @@ public class FXMLDocumentController implements Initializable {
         int CYCLES_COUNT = Integer.parseInt(cy);
 
         COMPABILITY = (COMPABILITY < 0 || COMPABILITY > 1) ? 0.6 : COMPABILITY;
-        STEP_SIZE =  (STEP_SIZE < 0 || STEP_SIZE > 1) ? 0.1 : STEP_SIZE;
+        STEP_SIZE =  (STEP_SIZE < 0 || STEP_SIZE > 3) ? 0.1 : STEP_SIZE;
         EDGE_STIFFNESS =  (EDGE_STIFFNESS < 0 || EDGE_STIFFNESS > 1) ? 0.9 : EDGE_STIFFNESS;
         ITERATIONS_COUNT =  (ITERATIONS_COUNT < 0 || ITERATIONS_COUNT > 400) ? 90 : ITERATIONS_COUNT;
-        CYCLES_COUNT =  (CYCLES_COUNT < 0 || CYCLES_COUNT > 6) ? 6 : CYCLES_COUNT;
+        CYCLES_COUNT =  (CYCLES_COUNT < 0 || CYCLES_COUNT > 20) ? 6 : CYCLES_COUNT;
 
 
         compability.setText(String.valueOf(COMPABILITY));

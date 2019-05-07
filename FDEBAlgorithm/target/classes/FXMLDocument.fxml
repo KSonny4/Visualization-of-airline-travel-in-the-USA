@@ -10,19 +10,34 @@
    <right>
       <VBox prefHeight="800.0" prefWidth="213.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Step size" />
-            <TextField fx:id="step_size" text="0.1" />
-            <Label alignment="CENTER" text="Compability" />
-            <TextField fx:id="compability" text="0.6" />
-            <Label alignment="CENTER" text="Edge stiffness" />
-            <TextField fx:id="edge_stiffness" text="0.9" />
-            <Label alignment="CENTER" text="Iterations count" />
-            <TextField fx:id="iterations_count" text="90" />
-            <Label alignment="CENTER" text="Cycles count" />
-            <TextField fx:id="cycles_count" text="6" />
+            <Label text="Step size (0, 3)">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Label>
+            <TextField fx:id="step_size" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="0.1" />
+            <Label alignment="CENTER" text="Compatibility (0, 1)">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Label>
+            <TextField fx:id="compability" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="0.6" />
+            <Label alignment="CENTER" text="Edge stiffness (0, 1)">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Label>
+            <TextField fx:id="edge_stiffness" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="0.9" />
+            <Label alignment="CENTER" text="Iterations count (0, 400)">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Label>
+            <TextField fx:id="iterations_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="90" />
+            <Label alignment="CENTER" text="Cycles count (0, 20)">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin></Label>
+            <TextField fx:id="cycles_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="6" />
             <Label fx:id="updateMeLabel" text="Update me">
                <VBox.margin>
-                  <Insets left="50.0" />
+                  <Insets left="50.0" top="75.0" />
                </VBox.margin>
             </Label>
             <Button fx:id="visualiseButton" mnemonicParsing="false" onAction="#handleVisButtonAction" prefHeight="152.0" prefWidth="190.0" text="Visualise">
@@ -33,10 +48,10 @@
          </children>
       </VBox>
    </right>
-   <left>
+   <center>
       <Canvas fx:id="canvasID" height="640.0" width="1126.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="60.0" />
          </BorderPane.margin></Canvas>
-   </left>
+   </center>
 </BorderPane>
