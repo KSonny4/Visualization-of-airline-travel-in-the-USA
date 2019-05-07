@@ -29,12 +29,12 @@
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
-            <TextField fx:id="iterations_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="90" />
+            <TextField fx:id="iterations_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="1" />
             <Label alignment="CENTER" text="Cycles count (0, 20)">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
-            <TextField fx:id="cycles_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="6" />
+            <TextField fx:id="cycles_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="1" />
             <Label fx:id="updateMeLabel" text="Update me">
                <VBox.margin>
                   <Insets left="50.0" top="75.0" />
