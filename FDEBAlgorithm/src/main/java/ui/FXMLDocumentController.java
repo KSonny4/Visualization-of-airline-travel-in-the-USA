@@ -55,6 +55,9 @@ public class FXMLDocumentController implements Initializable {
     //TODO Zmáčknout Button a zakázat ho než doběhne alg
     //TODO Zoom na gui
 
+    double scale = 0.60;
+    double centerX = 120;
+    double centerY = 120;
 
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
@@ -109,7 +112,7 @@ public class FXMLDocumentController implements Initializable {
 
             gc.setFill(Color.BLUE);
             int OK = 3;
-            gc.fillOval(x-OK, y-OK, 7, 7);
+            gc.fillOval((x+centerX)*scale, (y+centerY)*scale, 7, 7);
         }
 
 
@@ -119,8 +122,8 @@ public class FXMLDocumentController implements Initializable {
 
             ArrayList<Double> points = new ArrayList<>();
             for (Node n : flights[i1].getSubdivisionPoints()){
-                points.add(n.getPosition().getX());
-                points.add(n.getPosition().getY());
+                points.add((n.getPosition().getX()+centerX)*scale);
+                points.add((n.getPosition().getY()+centerY)*scale);
             }
             drawSomething(gc, createPath(points));
         }

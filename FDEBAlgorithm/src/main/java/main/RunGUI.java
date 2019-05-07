@@ -17,6 +17,7 @@ public class RunGUI extends Application {
         URL url = Paths.get( "src/main/resources/FXMLDocument.fxml").toUri().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 
