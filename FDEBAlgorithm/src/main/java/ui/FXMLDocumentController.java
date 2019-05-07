@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class FXMLDocumentController implements Initializable {
-
+    //Ovechkin constant for positioning graph
+    private int OK2 = 50;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -116,8 +117,9 @@ public class FXMLDocumentController implements Initializable {
             double y = airport.getPosition().getY();
 
             gc.setFill(Color.BLUE);
+            //Ovechkin constant for positioning graph
             int OK = 3;
-            gc.fillOval(x-OK, y-OK, 7, 7);
+            gc.fillOval(x-OK+OK2, y-OK, 7, 7);
         }
 
 
@@ -127,7 +129,7 @@ public class FXMLDocumentController implements Initializable {
 
             ArrayList<Double> points = new ArrayList<>();
             for (Node n : flights[i1].getSubdivisionPoints()){
-                points.add(n.getPosition().getX());
+                points.add(n.getPosition().getX()+OK2);
                 points.add(n.getPosition().getY());
             }
             drawSomething(gc, createPath(points));

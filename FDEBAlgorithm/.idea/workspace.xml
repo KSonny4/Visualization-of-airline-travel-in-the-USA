@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adefc413-30d2-493b-884b-224490b09695" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController_zaloha_male.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXMLDocument_zaloha_male.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXMLDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController_zaloha_male.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXMLDocument_zaloha_male.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ui/FXMLDocumentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ui/FXMLDocumentController.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -87,26 +85,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="57" column="56" lean-forward="true" selection-start-line="57" selection-start-column="56" selection-end-line="57" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/FXMLDocument_zaloha_male.fxml">
-          <provider selected="true" editor-type-id="text-editor" />
-          <provider editor-type-id="JavaFX-Scene-Builder" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController_zaloha_male.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="29" column="47" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
+            <state relative-caret-position="377">
+              <caret line="119" column="53" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -179,8 +159,8 @@
         <option value="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/main/RunGUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/core/ForceDirectedEdgeBundling.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController_zaloha_male.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" />
       </list>
     </option>
   </component>
@@ -380,12 +360,12 @@
       <workItem from="1557178013939" duration="2143000" />
       <workItem from="1557257256580" duration="1400000" />
       <workItem from="1557259910708" duration="272000" />
-      <workItem from="1557260729590" duration="2740000" />
+      <workItem from="1557260729590" duration="3369000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31597000" />
+    <option name="totallyTimeSpent" value="32226000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -590,8 +570,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="57" column="56" lean-forward="true" selection-start-line="57" selection-start-column="56" selection-end-line="57" selection-end-column="56" />
+        <state relative-caret-position="377">
+          <caret line="119" column="53" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
