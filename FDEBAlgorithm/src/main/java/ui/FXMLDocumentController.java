@@ -1,6 +1,7 @@
 package ui;
 
 import core.IOParser;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -95,7 +96,14 @@ public class FXMLDocumentController implements Initializable {
 
 
         //TODO: ted to nejak aktualizovat at se tohle vykresli hned omg
-        updateMeLabel.setText("Ahoj");
+        //updateMeLabel.setText("Ahoj");
+        visualiseButton.setText("asdsada");
+
+
+        //this.refresh();
+        //stage.refresh();
+        //borderPane.refresh();
+
 
 
 
@@ -105,8 +113,26 @@ public class FXMLDocumentController implements Initializable {
         Node[] airports = IOParser.getAirports();
         Edge[] flights = IOParser.getFlights();
 
+
         ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, STEP_SIZE, COMPABILITY, EDGE_STIFFNESS,ITERATIONS_COUNT, CYCLES_COUNT);
+        Thread t = new Thread(fdeb);
+        t.start();
         fdeb.run();
+
+        //https://stackoverflow.com/questions/52793431/problem-with-observer-pattern-and-bar-chart-using-javafx
+
+        //https://stackoverflow.com/questions/43095744/observer-wont-run-update-in-javafx-gui
+
+        //proste ne
+//        ForceDirectedEdgeBundling f;
+//        new Thread(() -> {
+//            f = new ForceDirectedEdgeBundling(airports, flights, STEP_SIZE, COMPABILITY, EDGE_STIFFNESS,ITERATIONS_COUNT, CYCLES_COUNT);
+//            f.run();
+//        }).start();
+
+
+
+
 
 
 
@@ -130,16 +156,16 @@ public class FXMLDocumentController implements Initializable {
         }
 
 
-
-        for (int i1 = 0; i1 < flights.length; i1++) {
+        for (Edge flight : flights) {
 
 
             ArrayList<Double> points = new ArrayList<>();
-            for (Node n : flights[i1].getSubdivisionPoints()){
-                points.add(n.getPosition().getX()+OK2);
+            for (Node n : flight.getSubdivisionPoints()) {
+                points.add(n.getPosition().getX() + OK2);
                 points.add(n.getPosition().getY());
             }
             drawSomething(gc, createPath(points));
+
         }
 
     }

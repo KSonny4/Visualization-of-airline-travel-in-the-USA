@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ForceDirectedEdgeBundling {
+public class ForceDirectedEdgeBundling implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(ForceDirectedEdgeBundling.class.getName());
 
