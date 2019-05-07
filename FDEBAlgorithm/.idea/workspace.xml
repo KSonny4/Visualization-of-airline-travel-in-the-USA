@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adefc413-30d2-493b-884b-224490b09695" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/RunGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/RunGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXMLDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/FDEBAlgorithm.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/ForceDirectedEdgeBundling.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/ForceDirectedEdgeBundling.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/IOParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/IOParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ui/FXMLDocumentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ui/FXMLDocumentController.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -21,8 +29,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/RunGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="285">
+              <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#603#604#0" expanded="true" />
+                <element signature="e#631#632#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -30,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="180">
+              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -39,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/core/ForceDirectedEdgeBundling.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="230" column="4" selection-start-line="230" selection-start-column="4" selection-end-line="230" selection-end-column="4" />
+            <state relative-caret-position="1215">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -53,19 +75,22 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml">
-          <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+            <state relative-caret-position="375">
+              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
             </state>
           </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="34" lean-forward="true" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+            <state relative-caret-position="130">
+              <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -73,18 +98,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Node.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-              <folding>
-                <element signature="e#535#536#0" expanded="true" />
-                <element signature="e#578#579#0" expanded="true" />
-                <element signature="e#617#618#0" expanded="true" />
-                <element signature="e#648#649#0" expanded="true" />
-                <element signature="e#674#675#0" expanded="true" />
-                <element signature="e#699#700#0" expanded="true" />
-                <element signature="e#730#731#0" expanded="true" />
-                <element signature="e#757#758#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="270">
+              <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -92,26 +107,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Edge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="1590">
+              <caret line="123" selection-start-line="123" selection-end-line="123" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#595#596#0" expanded="true" />
-                <element signature="e#635#636#0" expanded="true" />
-                <element signature="e#681#682#0" expanded="true" />
-                <element signature="e#719#720#0" expanded="true" />
-                <element signature="e#789#790#0" expanded="true" />
-                <element signature="e#847#848#0" expanded="true" />
-                <element signature="e#895#896#0" expanded="true" />
+                <element signature="e#883#884#0" expanded="true" />
                 <element signature="e#941#942#0" expanded="true" />
-                <element signature="e#970#971#0" expanded="true" />
-                <element signature="e#997#998#0" expanded="true" />
-                <element signature="e#1024#1025#0" expanded="true" />
-                <element signature="e#1049#1050#0" expanded="true" />
-                <element signature="e#1640#1641#0" expanded="true" />
-                <element signature="e#1682#1683#0" expanded="true" />
-                <element signature="e#3677#3678#0" expanded="true" />
-                <element signature="e#3738#3739#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,16 +121,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/core/IOParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="165">
               <caret line="20" column="73" selection-start-line="20" selection-start-column="73" selection-end-line="20" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#parseScaledGraph#0;class#IOParser#0" />
-                <element signature="e#18752#18779#0" expanded="true" />
-                <element signature="e#19824#19825#0" expanded="true" />
-                <element signature="e#19855#19856#0" expanded="true" />
-                <element signature="e#19957#19958#0" expanded="true" />
-                <element signature="e#19987#19988#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,6 +140,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>List&lt;List&lt;</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -160,15 +161,15 @@
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/FXMLDocumentController.java" />
         <option value="$PROJECT_DIR$/src/main/java/core/InputParser.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/main/RunGUI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/main/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Node.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Edge.java" />
         <option value="$PROJECT_DIR$/src/main/java/core/IOParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/core/ForceDirectedEdgeBundling.java" />
+        <option value="$PROJECT_DIR$/src/main/java/main/RunGUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/main/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java" />
       </list>
     </option>
   </component>
@@ -212,7 +213,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -281,6 +281,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -292,7 +293,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
@@ -320,7 +321,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.RunGUI">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="FDEBAlgorithm" />
@@ -329,7 +330,7 @@
       </method>
     </configuration>
     <configuration name="RunGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.RunGUI" />
       <module name="FDEBAlgorithm" />
@@ -343,8 +344,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.RunGUI" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -363,11 +364,14 @@
       <workItem from="1557053091599" duration="4687000" />
       <workItem from="1557176615190" duration="1032000" />
       <workItem from="1557178013939" duration="2143000" />
+      <workItem from="1557257256580" duration="1400000" />
+      <workItem from="1557259910708" duration="272000" />
+      <workItem from="1557260729590" duration="86000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27185000" />
+    <option name="totallyTimeSpent" value="28943000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -379,10 +383,41 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20149253" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2080797" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Image Layers" order="6" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.22894168" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39956802" />
+      <window_info anchor="bottom" id="Version Control" order="4" weight="0.32829374" />
+      <window_info anchor="bottom" id="Terminal" order="5" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="9" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32721382" />
+      <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
+      <window_info anchor="right" id="Theme Preview" order="0" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Database" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Maven" order="5" weight="0.32995737" />
+      <window_info anchor="right" id="Palette" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20365246" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -411,7 +446,7 @@
       <window_info anchor="right" id="Palette" order="6" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -444,25 +479,39 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/results.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/RunGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="285">
+          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#603#604#0" expanded="true" />
+            <element signature="e#631#632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="180">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/core/ForceDirectedEdgeBundling.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -471,81 +520,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-          <folding>
-            <element signature="e#535#536#0" expanded="true" />
-            <element signature="e#578#579#0" expanded="true" />
-            <element signature="e#617#618#0" expanded="true" />
-            <element signature="e#648#649#0" expanded="true" />
-            <element signature="e#674#675#0" expanded="true" />
-            <element signature="e#699#700#0" expanded="true" />
-            <element signature="e#730#731#0" expanded="true" />
-            <element signature="e#757#758#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="270">
+          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="1590">
+          <caret line="123" selection-start-line="123" selection-end-line="123" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-            <element signature="e#635#636#0" expanded="true" />
-            <element signature="e#681#682#0" expanded="true" />
-            <element signature="e#719#720#0" expanded="true" />
-            <element signature="e#789#790#0" expanded="true" />
-            <element signature="e#847#848#0" expanded="true" />
-            <element signature="e#895#896#0" expanded="true" />
+            <element signature="e#883#884#0" expanded="true" />
             <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#970#971#0" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
-            <element signature="e#1024#1025#0" expanded="true" />
-            <element signature="e#1049#1050#0" expanded="true" />
-            <element signature="e#1640#1641#0" expanded="true" />
-            <element signature="e#1682#1683#0" expanded="true" />
-            <element signature="e#3677#3678#0" expanded="true" />
-            <element signature="e#3738#3739#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/core/IOParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
+        <state relative-caret-position="165">
           <caret line="20" column="73" selection-start-line="20" selection-start-column="73" selection-end-line="20" selection-end-column="73" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#parseScaledGraph#0;class#IOParser#0" />
-            <element signature="e#18752#18779#0" expanded="true" />
-            <element signature="e#19824#19825#0" expanded="true" />
-            <element signature="e#19855#19856#0" expanded="true" />
-            <element signature="e#19957#19958#0" expanded="true" />
-            <element signature="e#19987#19988#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/FXMLDocument.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        <state relative-caret-position="375">
+          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ui/FXMLDocumentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="34" lean-forward="true" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/core/ForceDirectedEdgeBundling.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="230" column="4" selection-start-line="230" selection-start-column="4" selection-end-line="230" selection-end-column="4" />
+        <state relative-caret-position="130">
+          <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -602,6 +616,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
+          <last-edited>FDEBAlgorithm</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
