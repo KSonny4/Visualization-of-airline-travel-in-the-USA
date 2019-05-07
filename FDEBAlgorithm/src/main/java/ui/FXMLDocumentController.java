@@ -96,7 +96,8 @@ public class FXMLDocumentController implements Initializable {
 
 
         //TODO: ted to nejak aktualizovat at se tohle vykresli hned omg
-        //updateMeLabel.setText("Ahoj");
+        //zkousel jsem to proste vsema metodama ale proste to nejde :DDDDDDDDDDDDD
+        updateMeLabel.setText("Ahoj");
         visualiseButton.setText("asdsada");
 
 
@@ -123,6 +124,7 @@ public class FXMLDocumentController implements Initializable {
 
         //https://stackoverflow.com/questions/43095744/observer-wont-run-update-in-javafx-gui
 
+        //zkousim tohle zbrzdit, at se stihne setText
         //proste ne
 //        ForceDirectedEdgeBundling f;
 //        new Thread(() -> {
