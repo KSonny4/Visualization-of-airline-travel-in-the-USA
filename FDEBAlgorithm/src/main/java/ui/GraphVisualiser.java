@@ -1,6 +1,8 @@
 package ui;
 
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +12,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -58,6 +62,37 @@ public class GraphVisualiser implements Initializable, Observer {
     //TODO Zoom na gui
 
 
+    DoubleProperty myScale = new SimpleDoubleProperty(1.0);
+    @FXML
+    private void onScroll(ScrollEvent event) {
+
+        //System.out.println("on zoom BordePane");
+    }
+
+
+    //https://stackoverflow.com/questions/29506156/javafx-8-zooming-relative-to-mouse-pointer
+    public void addMouseScrolling(Canvas node) {
+
+
+
+        node.setOnScroll((ScrollEvent event) -> {
+            // Adjust the zoom factor as per your requirement
+            double zoomFactor = 1.05;
+            double deltaY = event.getDeltaY();
+            System.out.println("deltaY " + deltaY);
+
+            if (deltaY < 0){
+                zoomFactor = 4.0 - zoomFactor;
+            }
+            System.out.println(zoomFactor);
+            node.setScaleX(node.getScaleX() * zoomFactor);
+            node.setScaleY(node.getScaleY() * zoomFactor);
+        });
+    }
+
+
+
+
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
 
@@ -91,8 +126,11 @@ public class GraphVisualiser implements Initializable, Observer {
 
     }
 
+
+
     private void drawNodesAndEdges(Node[]nodes, Edge[]edges){
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -197,6 +235,9 @@ public class GraphVisualiser implements Initializable, Observer {
         readTextField(iterationsCountTextField);
         readTextField(cyclesCountTextField);
         readTextField(edgeStiffnessTextField);
+        addMouseScrolling(canvas);
+
+
     }
 
 
