@@ -27,7 +27,7 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class FXMLDocumentController implements Initializable, Observer {
+public class GraphVisualiser implements Initializable, Observer {
 
     // Ovechkin constant for positioning graph
     private int OK2 = 50;
@@ -37,17 +37,17 @@ public class FXMLDocumentController implements Initializable, Observer {
     private Button visualiseButton;
 
     @FXML
-    private Canvas canvasID;
+    private Canvas canvas;
     @FXML
-    private TextField compability;
+    private TextField compatibilityTextField;
     @FXML
-    private TextField step_size;
+    private TextField stepSizeTextField;
     @FXML
-    private TextField edge_stiffness;
+    private TextField edgeStiffnessTextField;
     @FXML
-    private TextField cycles_count;
+    private TextField cyclesCountTextField;
     @FXML
-    private TextField iterations_count;
+    private TextField iterationsCountTextField;
 
 
     //TODO mozna scrolling?
@@ -61,11 +61,11 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
 
-        double inputCompatibility = Double.parseDouble(compability.getText());
-        double inputStepSize = Double.parseDouble(step_size.getText());
-        double inputEdgeStiffness = Double.parseDouble(edge_stiffness.getText());
-        int inputIterationsCount = Integer.parseInt(iterations_count.getText());
-        int inputCyclesCount = Integer.parseInt(cycles_count.getText());
+        double inputCompatibility = Double.parseDouble(compatibilityTextField.getText());
+        double inputStepSize = Double.parseDouble(stepSizeTextField.getText());
+        double inputEdgeStiffness = Double.parseDouble(edgeStiffnessTextField.getText());
+        int inputIterationsCount = Integer.parseInt(iterationsCountTextField.getText());
+        int inputCyclesCount = Integer.parseInt(cyclesCountTextField.getText());
 
         // set default value if input value is out of range
         inputCompatibility = (inputCompatibility < 0 || inputCompatibility > 1) ? 0.6 : inputCompatibility;
@@ -74,6 +74,11 @@ public class FXMLDocumentController implements Initializable, Observer {
         inputIterationsCount =  (inputIterationsCount < 0 || inputIterationsCount > 400) ? 90 : inputIterationsCount;
         inputCyclesCount =  (inputCyclesCount < 0 || inputCyclesCount > 20) ? 6 : inputCyclesCount;
 
+        compatibilityTextField.setText(String.valueOf(inputCompatibility));
+        stepSizeTextField.setText(String.valueOf(inputStepSize));
+        edgeStiffnessTextField.setText(String.valueOf(inputEdgeStiffness));
+        iterationsCountTextField.setText(String.valueOf(inputIterationsCount));
+        cyclesCountTextField.setText(String.valueOf(inputCyclesCount));
 
         IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
 
@@ -87,9 +92,9 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
 
     private void drawNodesAndEdges(Node[]nodes, Edge[]edges){
-        GraphicsContext gc = canvasID.getGraphicsContext2D();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.clearRect(0, 0, canvasID.getWidth(), canvasID.getHeight());
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 //        biggest x = 1000
 //        smallest x = 50
@@ -187,11 +192,11 @@ public class FXMLDocumentController implements Initializable, Observer {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        readTextField(compability);
-        readTextField(step_size);
-        readTextField(iterations_count);
-        readTextField(cycles_count);
-        readTextField(edge_stiffness);
+        readTextField(compatibilityTextField);
+        readTextField(stepSizeTextField);
+        readTextField(iterationsCountTextField);
+        readTextField(cyclesCountTextField);
+        readTextField(edgeStiffnessTextField);
     }
 
 
