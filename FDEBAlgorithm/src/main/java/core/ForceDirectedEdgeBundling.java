@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ForceDirectedEdgeBundling implements Runnable {
+public class ForceDirectedEdgeBundling implements Observable {
 
     private static final Logger LOGGER = Logger.getLogger(ForceDirectedEdgeBundling.class.getName());
 
@@ -25,6 +25,8 @@ public class ForceDirectedEdgeBundling implements Runnable {
 
     private Node[] airports;
     private Edge[] flights;
+
+    private List<Observer> observers;
 
     /**
      * Constructor called from GUI with user-specified values.
@@ -46,6 +48,7 @@ public class ForceDirectedEdgeBundling implements Runnable {
         this.CYCLES_COUNT = CYCLES_COUNT;
         this.airports = airports;
         this.flights = flights;
+        this.observers = new ArrayList<>();
     }
 
     /**
@@ -55,7 +58,7 @@ public class ForceDirectedEdgeBundling implements Runnable {
      * @param flights
      */
     public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights){
-        this(airports, flights, 0.3, 0.6, 0.9, 90, 7);
+        this(airports, flights, 0.1, 0.6, 0.9, 60, 5);
     }
 
 
@@ -84,6 +87,8 @@ public class ForceDirectedEdgeBundling implements Runnable {
                 if(iter % 10 == 0)
                     LOGGER.log(Level.INFO, String.format("Iteration: %d \n", iter));
 
+                notifyObservers(iter, cycle, false);
+
                 List<List<Coordinate>> forces = new ArrayList<>(flights.length);
                 for (int i = 0; i < flights.length ; i++) {
                     forces.add(applyForces(i, currentSubdivisionPointsCount, currentStepSize));
@@ -103,6 +108,8 @@ public class ForceDirectedEdgeBundling implements Runnable {
 
             updateEdgeSubdivisions(currentSubdivisionPointsCount);
         }
+
+        notifyObservers(0, 0, true);
 
     }
 
@@ -172,36 +179,36 @@ public class ForceDirectedEdgeBundling implements Runnable {
     }
 
     private void updateEdgeSubdivisions(final int SEGMENTS_COUNT){
-        for (int i = 0; i < flights.length; i++) {
+        for (Edge flight : flights) {
 
-            List<Node> subdivisionPoints = flights[i].getSubdivisionPoints();
+            List<Node> subdivisionPoints = flight.getSubdivisionPoints();
 
-            if(SEGMENTS_COUNT == 1){
-                subdivisionPoints.add(flights[i].getFrom());
-                Coordinate midpoint = flights[i].getMidpoint();
+            if (SEGMENTS_COUNT == 1) {
+                subdivisionPoints.add(flight.getFrom());
+                Coordinate midpoint = flight.getMidpoint();
                 subdivisionPoints.add(new Node(midpoint.getX(), midpoint.getY()));
-                subdivisionPoints.add(flights[i].getTo());
-            }else{
-                double dividedLength = flights[i].getDividedEdgeLength(subdivisionPoints);
+                subdivisionPoints.add(flight.getTo());
+            } else {
+                double dividedLength = flight.getDividedEdgeLength(subdivisionPoints);
                 final double segmentLength = dividedLength / (SEGMENTS_COUNT + 1);
                 double currSegmentLength = segmentLength;
 
                 List<Node> newEdgeSubdivisions = new ArrayList<>(flights.length);
-                newEdgeSubdivisions.add(flights[i].getFrom());
+                newEdgeSubdivisions.add(flight.getFrom());
 
                 for (int j = 1; j < subdivisionPoints.size(); j++) {
 
-                    double oldSegmentLength = subdivisionPoints.get(j).getPosition().euclideanDistance(subdivisionPoints.get(j-1).getPosition());
+                    double oldSegmentLength = subdivisionPoints.get(j).getPosition().euclideanDistance(subdivisionPoints.get(j - 1).getPosition());
 
-                    while(oldSegmentLength > currSegmentLength){
+                    while (oldSegmentLength > currSegmentLength) {
                         double percentage = currSegmentLength / oldSegmentLength;
-                        double x = subdivisionPoints.get(j-1).getPosition().getX();
-                        double y = subdivisionPoints.get(j-1).getPosition().getY();
+                        double x = subdivisionPoints.get(j - 1).getPosition().getX();
+                        double y = subdivisionPoints.get(j - 1).getPosition().getY();
 
-                        x += percentage * (subdivisionPoints.get(j).getPosition().getX() - subdivisionPoints.get(j-1).getPosition().getX());
-                        y += percentage * (subdivisionPoints.get(j).getPosition().getY() - subdivisionPoints.get(j-1).getPosition().getY());
+                        x += percentage * (subdivisionPoints.get(j).getPosition().getX() - subdivisionPoints.get(j - 1).getPosition().getX());
+                        y += percentage * (subdivisionPoints.get(j).getPosition().getY() - subdivisionPoints.get(j - 1).getPosition().getY());
 
-                        newEdgeSubdivisions.add(new Node(x,y));
+                        newEdgeSubdivisions.add(new Node(x, y));
 
                         oldSegmentLength -= currSegmentLength;
                         currSegmentLength = segmentLength;
@@ -210,9 +217,9 @@ public class ForceDirectedEdgeBundling implements Runnable {
                     currSegmentLength -= oldSegmentLength;
                 }
 
-                newEdgeSubdivisions.add(flights[i].getTo());
+                newEdgeSubdivisions.add(flight.getTo());
 
-                flights[i].setSubdivisionPoints(newEdgeSubdivisions);
+                flight.setSubdivisionPoints(newEdgeSubdivisions);
 
             }
         }
@@ -229,13 +236,18 @@ public class ForceDirectedEdgeBundling implements Runnable {
         }
     }
 
-    /**
-     * Returns the array of airports.
-     * This method is called from GUI when plotting nodes.
-     *
-     * @return
-     */
-    public Node[] getAirports() {
-        return airports;
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers(int iteration, int cycle, boolean finished) {
+        for(Observer observer : observers){
+            if(finished)
+                observer.finished(airports, flights);
+            else
+                observer.updateProcessInfo(iteration, cycle);
+        }
     }
 }

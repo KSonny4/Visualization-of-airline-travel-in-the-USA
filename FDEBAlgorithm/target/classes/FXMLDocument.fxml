@@ -29,17 +29,17 @@
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
-            <TextField fx:id="iterations_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="1" />
+            <TextField fx:id="iterations_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="60" />
             <Label alignment="CENTER" text="Cycles count (0, 20)">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
-            <TextField fx:id="cycles_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="1" />
-            <Label fx:id="updateMeLabel" text="Update me">
-               <VBox.margin>
-                  <Insets left="50.0" top="75.0" />
-               </VBox.margin>
-            </Label>
+            <TextField fx:id="cycles_count" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="5" />
+<!--            <Label fx:id="updateMeLabel" text="Last configuration:">-->
+<!--               <VBox.margin>-->
+<!--                  <Insets left="50.0" top="75.0" />-->
+<!--               </VBox.margin>-->
+<!--            </Label>-->
             <Button fx:id="visualiseButton" mnemonicParsing="false" onAction="#handleVisButtonAction" prefHeight="152.0" prefWidth="190.0" text="Visualise">
                <VBox.margin>
                   <Insets left="10.0" top="150.0" />

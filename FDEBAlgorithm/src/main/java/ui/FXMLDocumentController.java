@@ -1,6 +1,5 @@
 package ui;
 
-import core.IOParser;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,35 +9,33 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.stage.Stage;
-import main.RunGUI;
+
 import model.Edge;
 import model.Node;
+import core.IOParser;
+import core.Observer;
 import core.ForceDirectedEdgeBundling;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class FXMLDocumentController implements Initializable {
-    //Ovechkin constant for positioning graph
+public class FXMLDocumentController implements Initializable, Observer {
+
+    // Ovechkin constant for positioning graph
     private int OK2 = 50;
     @FXML
     private BorderPane borderPane;
     @FXML
     private Button visualiseButton;
-    @FXML
-    private Label updateMeLabel;
+
     @FXML
     private Canvas canvasID;
     @FXML
@@ -57,56 +54,25 @@ public class FXMLDocumentController implements Initializable {
     //https://stackoverflow.com/questions/31593859/zoom-levels-with-the-javafx-8-canvas
 
     //TODO Long,lat na x a y
-    //TODO Visualise button zobrazit processing
     //TODO ať se vejde graf na každém monitoru
-    //TODO Zmáčknout Button a zakázat ho než doběhne alg
     //TODO Zoom na gui
 
 
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
 
+        double inputCompatibility = Double.parseDouble(compability.getText());
+        double inputStepSize = Double.parseDouble(step_size.getText());
+        double inputEdgeStiffness = Double.parseDouble(edge_stiffness.getText());
+        int inputIterationsCount = Integer.parseInt(iterations_count.getText());
+        int inputCyclesCount = Integer.parseInt(cycles_count.getText());
 
-        Stage stage = RunGUI.getMainStage();
-
-        String c = compability.getText();
-        String s = step_size.getText();
-        String e = edge_stiffness.getText();
-        String i = iterations_count.getText();
-        String cy = cycles_count.getText();
-
-        double COMPABILITY = Double.parseDouble(c);
-        double STEP_SIZE = Double.parseDouble(s);
-        double EDGE_STIFFNESS = Double.parseDouble(e);
-        int ITERATIONS_COUNT = Integer.parseInt(i);
-        int CYCLES_COUNT = Integer.parseInt(cy);
-
-        COMPABILITY = (COMPABILITY < 0 || COMPABILITY > 1) ? 0.6 : COMPABILITY;
-        STEP_SIZE =  (STEP_SIZE < 0 || STEP_SIZE > 3) ? 0.1 : STEP_SIZE;
-        EDGE_STIFFNESS =  (EDGE_STIFFNESS < 0 || EDGE_STIFFNESS > 1) ? 0.9 : EDGE_STIFFNESS;
-        ITERATIONS_COUNT =  (ITERATIONS_COUNT < 0 || ITERATIONS_COUNT > 400) ? 90 : ITERATIONS_COUNT;
-        CYCLES_COUNT =  (CYCLES_COUNT < 0 || CYCLES_COUNT > 20) ? 6 : CYCLES_COUNT;
-
-
-        compability.setText(String.valueOf(COMPABILITY));
-        step_size.setText(String.valueOf(STEP_SIZE));
-        edge_stiffness.setText(String.valueOf(EDGE_STIFFNESS));
-        iterations_count.setText(String.valueOf(ITERATIONS_COUNT));
-        cycles_count.setText(String.valueOf(CYCLES_COUNT));
-
-
-        //TODO: ted to nejak aktualizovat at se tohle vykresli hned omg
-        //zkousel jsem to proste vsema metodama ale proste to nejde :DDDDDDDDDDDDD
-        updateMeLabel.setText("Ahoj");
-        visualiseButton.setText("asdsada");
-
-
-        //this.refresh();
-        //stage.refresh();
-        //borderPane.refresh();
-
-
-
+        // set default value if input value is out of range
+        inputCompatibility = (inputCompatibility < 0 || inputCompatibility > 1) ? 0.6 : inputCompatibility;
+        inputStepSize =  (inputStepSize < 0 || inputStepSize > 3) ? 0.1 : inputStepSize;
+        inputEdgeStiffness =  (inputEdgeStiffness < 0 || inputEdgeStiffness > 1) ? 0.9 : inputEdgeStiffness;
+        inputIterationsCount =  (inputIterationsCount < 0 || inputIterationsCount > 400) ? 90 : inputIterationsCount;
+        inputCyclesCount =  (inputCyclesCount < 0 || inputCyclesCount > 20) ? 6 : inputCyclesCount;
 
 
         IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
@@ -114,30 +80,13 @@ public class FXMLDocumentController implements Initializable {
         Node[] airports = IOParser.getAirports();
         Edge[] flights = IOParser.getFlights();
 
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, inputStepSize, inputCompatibility, inputEdgeStiffness,inputIterationsCount, inputCyclesCount);
+        fdeb.registerObserver(this);
+        new Thread(fdeb::run).start();
 
-        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, STEP_SIZE, COMPABILITY, EDGE_STIFFNESS,ITERATIONS_COUNT, CYCLES_COUNT);
-        Thread t = new Thread(fdeb);
-        t.start();
-        fdeb.run();
+    }
 
-        //https://stackoverflow.com/questions/52793431/problem-with-observer-pattern-and-bar-chart-using-javafx
-
-        //https://stackoverflow.com/questions/43095744/observer-wont-run-update-in-javafx-gui
-
-        //zkousim tohle zbrzdit, at se stihne setText
-        //proste ne
-//        ForceDirectedEdgeBundling f;
-//        new Thread(() -> {
-//            f = new ForceDirectedEdgeBundling(airports, flights, STEP_SIZE, COMPABILITY, EDGE_STIFFNESS,ITERATIONS_COUNT, CYCLES_COUNT);
-//            f.run();
-//        }).start();
-
-
-
-
-
-
-
+    private void drawNodesAndEdges(Node[]nodes, Edge[]edges){
         GraphicsContext gc = canvasID.getGraphicsContext2D();
 
         gc.clearRect(0, 0, canvasID.getWidth(), canvasID.getHeight());
@@ -147,32 +96,31 @@ public class FXMLDocumentController implements Initializable {
 //        biggest y = 560
 //        smallest y = 50
 
-        for (Node airport : fdeb.getAirports()) {
+        for (Node airport : nodes) {
             double x = airport.getPosition().getX();
             double y = airport.getPosition().getY();
 
             gc.setFill(Color.BLUE);
-            //Ovechkin constant for positioning graph
+
+            // Ovechkin constant for positioning graph
             int OK = 3;
             gc.fillOval(x-OK+OK2, y-OK, 7, 7);
         }
 
 
-        for (Edge flight : flights) {
-
-
+        for (Edge flight : edges) {
             ArrayList<Double> points = new ArrayList<>();
+
             for (Node n : flight.getSubdivisionPoints()) {
                 points.add(n.getPosition().getX() + OK2);
                 points.add(n.getPosition().getY());
             }
-            drawSomething(gc, createPath(points));
 
+            drawEdge(gc, createPath(points));
         }
-
     }
 
-    private void drawSomething(GraphicsContext gc, Path pathList) {
+    private void drawEdge(GraphicsContext gc, Path pathList) {
 
         gc.setStroke(Color.rgb(0, 0, 230, 0.1));
         gc.setFill(Color.rgb(0, 0, 230, 0.1));
@@ -191,9 +139,6 @@ public class FXMLDocumentController implements Initializable {
         gc.stroke();
         gc.closePath();
     }
-
-
-
 
     private Path createPath(ArrayList<Double> points) {
         Path path = new Path();
@@ -242,37 +187,46 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        read(compability);
-        read(step_size);
-        read(iterations_count);
-        read(cycles_count);
-        read(edge_stiffness);
+        readTextField(compability);
+        readTextField(step_size);
+        readTextField(iterations_count);
+        readTextField(cycles_count);
+        readTextField(edge_stiffness);
     }
 
 
-
-    private void read(TextField field){
+    private void readTextField(TextField field){
         DecimalFormat format = new DecimalFormat( "#.0" );
 
-
-        field.setTextFormatter( new TextFormatter<>(c ->
-        {
-            if ( c.getControlNewText().isEmpty() )
-            {
+        field.setTextFormatter( new TextFormatter<>(c -> {
+            if(c.getControlNewText().isEmpty()){
                 return c;
             }
 
             ParsePosition parsePosition = new ParsePosition( 0 );
-            Object object = format.parse( c.getControlNewText(), parsePosition );
+            Object object = format.parse(c.getControlNewText(), parsePosition);
 
-            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-            {
+            if(object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
                 return null;
             }
-            else
-            {
+            else {
                 return c;
             }
         }));
+    }
+
+    @Override
+    public void updateProcessInfo(int iteration, int cycle) {
+        Platform.runLater(() -> visualiseButton.setText(String.format("Processing...\nCycle: %d\nIteration: %d", cycle, iteration)));
+    }
+
+    @Override
+    public void finished(Node[]nodes, Edge[]edges) {
+        Platform.runLater(() -> {
+            visualiseButton.setText("Visualise");
+            visualiseButton.setDisable(false);
+            drawNodesAndEdges(nodes, edges);
+        });
+
     }
 }

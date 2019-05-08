@@ -137,7 +137,6 @@ public class IOParser {
     }
 
     @SuppressWarnings("unused")
-//    public void printToJson(List<List<Node>>edges) throws FileNotFoundException, UnsupportedEncodingException {
     public void printToJson(Edge[]edges) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter("src/main/resources/results.js", "UTF-8");
         writer.println("var results = [");
@@ -155,24 +154,7 @@ public class IOParser {
             if(j < edges.length -1){
                 writer.print(",");
             }
-//            writer.print("]");
-//            if(++i < edges.size())
-//                writer.print(",");
         }
-//        int i = 0;
-//
-//        for(List<Node> edge : edges){
-//            writer.print("[");
-//            int idx = 0;
-//            for(Node point : edge){
-//                writer.print("{\"x\":" + point.getPosition().getX() + ", \"y\":" + point.getPosition().getY() + "}");
-//                if(++idx < edge.size())
-//                    writer.println(",");
-//            }
-//            writer.print("]");
-//            if(++i < edges.size())
-//                writer.print(",");
-//        }
 
         writer.println("]");
         writer.close();
