@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/FDEBAlgorithm/FDEBAlgorithm.iml" filepath="$PROJECT_DIR$/FDEBAlgorithm/FDEBAlgorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Visualization-of-airline-travel-in-the-USA.iml" filepath="$PROJECT_DIR$/.idea/Visualization-of-airline-travel-in-the-USA.iml" />
     </modules>
   </component>
