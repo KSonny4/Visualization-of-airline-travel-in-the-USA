@@ -1,8 +1,6 @@
 package ui;
 
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,17 +11,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
+import javafx.scene.transform.Scale;
 import model.Edge;
 import model.Node;
 import core.IOParser;
 import core.Observer;
 import core.ForceDirectedEdgeBundling;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -53,40 +53,32 @@ public class GraphVisualiser implements Initializable, Observer {
     @FXML
     private TextField iterationsCountTextField;
 
-
-    //TODO mozna scrolling?
-    //https://stackoverflow.com/questions/31593859/zoom-levels-with-the-javafx-8-canvas
-
     //TODO Long,lat na x a y
-    //TODO ať se vejde graf na každém monitoru
-    //TODO Zoom na gui
 
 
-    DoubleProperty myScale = new SimpleDoubleProperty(1.0);
-    @FXML
-    private void onScroll(ScrollEvent event) {
+    private void addMouseScrolling(Canvas node) {
 
-        //System.out.println("on zoom BordePane");
-    }
-
-
-    //https://stackoverflow.com/questions/29506156/javafx-8-zooming-relative-to-mouse-pointer
-    public void addMouseScrolling(Canvas node) {
-
-
+        final double SCALE_DELTA = 1.1;
 
         node.setOnScroll((ScrollEvent event) -> {
-            // Adjust the zoom factor as per your requirement
-            double zoomFactor = 1.05;
-            double deltaY = event.getDeltaY();
-            System.out.println("deltaY " + deltaY);
+            event.consume();
 
-            if (deltaY < 0){
-                zoomFactor = 4.0 - zoomFactor;
-            }
-            System.out.println(zoomFactor);
-            node.setScaleX(node.getScaleX() * zoomFactor);
-            node.setScaleY(node.getScaleY() * zoomFactor);
+            if(event.getDeltaY() == 0)
+                return;
+
+            double scaleFactor = event.getDeltaY() > 0 ? SCALE_DELTA : 1/SCALE_DELTA;
+
+            Scale scale = new Scale();
+
+            scale.setPivotX(event.getX());
+            scale.setPivotY(event.getY());
+            scale.setX(canvas.getScaleX() * scaleFactor);
+            scale.setY(canvas.getScaleY() * scaleFactor);
+
+            node.getTransforms().add(scale);
+
+            event.consume();
+
         });
     }
 
@@ -126,18 +118,11 @@ public class GraphVisualiser implements Initializable, Observer {
 
     }
 
-
-
     private void drawNodesAndEdges(Node[]nodes, Edge[]edges){
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-//        biggest x = 1000
-//        smallest x = 50
-//        biggest y = 560
-//        smallest y = 50
 
         for (Node airport : nodes) {
             double x = airport.getPosition().getX();
@@ -236,8 +221,6 @@ public class GraphVisualiser implements Initializable, Observer {
         readTextField(cyclesCountTextField);
         readTextField(edgeStiffnessTextField);
         addMouseScrolling(canvas);
-
-
     }
 
 
@@ -263,7 +246,10 @@ public class GraphVisualiser implements Initializable, Observer {
 
     @Override
     public void updateProcessInfo(int iteration, int cycle) {
-        Platform.runLater(() -> visualiseButton.setText(String.format("Processing...\nCycle: %d\nIteration: %d", cycle, iteration)));
+        Platform.runLater(() -> {
+            visualiseButton.setText(String.format("Processing...\nCycle: %d\nIteration: %d", cycle, iteration));
+            visualiseButton.setDisable(true);
+        });
     }
 
     @Override
