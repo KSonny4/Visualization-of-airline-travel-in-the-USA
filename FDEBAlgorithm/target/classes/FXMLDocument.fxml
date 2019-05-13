@@ -35,16 +35,12 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
             <TextField fx:id="cyclesCountTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="5" />
-<!--            <Label fx:id="updateMeLabel" text="Last configuration:">-->
-<!--               <VBox.margin>-->
-<!--                  <Insets left="50.0" top="75.0" />-->
-<!--               </VBox.margin>-->
-<!--            </Label>-->
-            <Button fx:id="visualiseButton" mnemonicParsing="false" onAction="#handleVisButtonAction" prefHeight="152.0" prefWidth="190.0" text="Visualise">
+            <Button fx:id="visualiseButton" mnemonicParsing="false" onAction="#handleVisButtonAction" prefHeight="150.0" prefWidth="185.0" text="Visualise">
                <VBox.margin>
-                  <Insets left="10.0" top="150.0" />
+                  <Insets left="0.0" top="110.0" />
                </VBox.margin>
             </Button>
+
          </children>
       </VBox>
    </right>

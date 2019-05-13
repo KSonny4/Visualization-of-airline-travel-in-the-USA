@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
 import javafx.scene.transform.Scale;
@@ -23,18 +22,16 @@ import core.IOParser;
 import core.Observer;
 import core.ForceDirectedEdgeBundling;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GraphVisualiser implements Initializable, Observer {
 
-    // Ovechkin constant for positioning graph
-    private int OK2 = 50;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -53,37 +50,49 @@ public class GraphVisualiser implements Initializable, Observer {
     @FXML
     private TextField iterationsCountTextField;
 
+    // Ovechkin constant for positioning graph
+    private final int OK2 = 50;
+
+    private final ButtonType continueAnyway = new ButtonType("Continue anyway", ButtonBar.ButtonData.OK_DONE);
+
+    private List<TextField> textFields;
+
+    // current value of canvas scale X, used to prevent zooming too far
+    private double canvasScaleX;
+    // current value of canvas scale Y, used to prevent zooming too far
+    private double canvasScaleY;
+
     //TODO Long,lat na x a y
 
 
     private void addMouseScrolling(Canvas node) {
-
         final double SCALE_DELTA = 1.1;
 
         node.setOnScroll((ScrollEvent event) -> {
             event.consume();
-
             if(event.getDeltaY() == 0)
                 return;
+
+            // prevent zooming too far away
+            if((canvasScaleX < 0.5 || canvasScaleY < 0.5) && event.getDeltaY() < 0){
+                return;
+            }
 
             double scaleFactor = event.getDeltaY() > 0 ? SCALE_DELTA : 1/SCALE_DELTA;
 
             Scale scale = new Scale();
-
             scale.setPivotX(event.getX());
             scale.setPivotY(event.getY());
             scale.setX(canvas.getScaleX() * scaleFactor);
             scale.setY(canvas.getScaleY() * scaleFactor);
+            canvasScaleX = canvasScaleX * scaleFactor;
+            canvasScaleY = canvasScaleX * scaleFactor;
 
             node.getTransforms().add(scale);
-
             event.consume();
 
         });
     }
-
-
-
 
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
@@ -101,6 +110,9 @@ public class GraphVisualiser implements Initializable, Observer {
         inputIterationsCount =  (inputIterationsCount < 0 || inputIterationsCount > 400) ? 90 : inputIterationsCount;
         inputCyclesCount =  (inputCyclesCount < 0 || inputCyclesCount > 20) ? 6 : inputCyclesCount;
 
+        // handle input values and raise alerts if selected values might cause long computation times
+        handleInputValues(inputCompatibility, inputIterationsCount, inputCyclesCount);
+
         compatibilityTextField.setText(String.valueOf(inputCompatibility));
         stepSizeTextField.setText(String.valueOf(inputStepSize));
         edgeStiffnessTextField.setText(String.valueOf(inputEdgeStiffness));
@@ -114,13 +126,47 @@ public class GraphVisualiser implements Initializable, Observer {
 
         ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, inputStepSize, inputCompatibility, inputEdgeStiffness,inputIterationsCount, inputCyclesCount);
         fdeb.registerObserver(this);
-        new Thread(fdeb::run).start();
 
+        new Thread(fdeb::run).start();
+        visualiseButton.setDisable(true);
+
+        for(TextField field : textFields){
+            field.setDisable(true);
+        }
+    }
+
+    private void handleInputValues(double inputCompatibility, int inputIterationsCount, int inputCyclesCount) {
+        List<Alert> alerts = new ArrayList<>();
+        if(inputCompatibility < 0.3){
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format("Compatibility threshold value (%.2f) is set too low, computation might take some time...", inputCompatibility), continueAnyway
+                    , ButtonType.CANCEL);
+            alert.setResizable(true);
+            alerts.add(alert);
+        }
+        if(inputCyclesCount > 10){
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format("Number of cycles (%d) is high, computation might take some time...", inputCyclesCount), continueAnyway
+                    , ButtonType.CANCEL);
+            alert.setResizable(true);
+            alerts.add(alert);
+        }
+        if(inputIterationsCount > 250){
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    String.format("Numbef of iterations (%d) is high, computation might take some time...", inputIterationsCount), continueAnyway
+                    , ButtonType.CANCEL);
+            alert.setResizable(true);
+            alerts.add(alert);
+        }
+
+        for(Alert alert : alerts){
+            if(alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.CANCEL)
+                return;
+        }
     }
 
     private void drawNodesAndEdges(Node[]nodes, Edge[]edges){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -215,12 +261,20 @@ public class GraphVisualiser implements Initializable, Observer {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        textFields = new ArrayList<>();
+        textFields.add(compatibilityTextField);
+        textFields.add(stepSizeTextField);
+        textFields.add(iterationsCountTextField);
+        textFields.add(cyclesCountTextField);
+        textFields.add(edgeStiffnessTextField);
         readTextField(compatibilityTextField);
         readTextField(stepSizeTextField);
         readTextField(iterationsCountTextField);
         readTextField(cyclesCountTextField);
         readTextField(edgeStiffnessTextField);
         addMouseScrolling(canvas);
+        canvasScaleX = 1.0;
+        canvasScaleY = 1.0;
     }
 
 
@@ -248,7 +302,6 @@ public class GraphVisualiser implements Initializable, Observer {
     public void updateProcessInfo(int iteration, int cycle) {
         Platform.runLater(() -> {
             visualiseButton.setText(String.format("Processing...\nCycle: %d\nIteration: %d", cycle, iteration));
-            visualiseButton.setDisable(true);
         });
     }
 
@@ -257,6 +310,9 @@ public class GraphVisualiser implements Initializable, Observer {
         Platform.runLater(() -> {
             visualiseButton.setText("Visualise");
             visualiseButton.setDisable(false);
+            for(TextField field : textFields){
+                field.setDisable(false);
+            }
             drawNodesAndEdges(nodes, edges);
         });
 
