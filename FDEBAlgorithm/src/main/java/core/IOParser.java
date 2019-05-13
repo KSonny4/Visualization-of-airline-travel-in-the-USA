@@ -2,6 +2,7 @@ package core;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
 import model.Edge;
@@ -12,6 +13,57 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IOParser {
+
+    class LatLongConverter{
+        private double [] topLeft;
+        private double [] bottomRight;
+        private final double radius = 6.371;
+
+        public LatLongConverter() {
+            topLeft = new double[4];
+            bottomRight = new double[4];
+        }
+
+        public LatLongConverter setTopleftCanvasXY(double x, double y) {
+            this.topLeft[0] = x;
+            this.topLeft[1] = y;
+            return this;
+        }
+        public LatLongConverter bottomRightCanvasXY(double x, double y) {
+            this.bottomRight[0] = x;
+            this.bottomRight[1] = y;
+            return this;
+        }
+        public LatLongConverter setTopleftLatLong(double lat, double lng) {
+            this.topLeft[2] = lat;
+            this.topLeft[3] = lng;
+            return this;
+        }
+        public LatLongConverter bottomRightLatLong(double lat, double lng) {
+            this.bottomRight[2] = lat;
+            this.bottomRight[3] = lng;
+            return this;
+        }
+
+        private double[] convertToGlobalXY(double lat, double lng){
+            double globalX = radius * lng * Math.cos((topLeft[2] + bottomRight[2]) / 2.0);
+            double globalY = radius * lat;
+            return new double[]{globalX, globalY};
+        }
+
+        public double[] convertLatLngToXY(double lng, double lat){
+
+            double[] topLeftXY = convertToGlobalXY(topLeft[2], topLeft[3]);
+            double[] bottomRightXY = convertToGlobalXY(bottomRight[2], bottomRight[3]);
+
+            double[] global = convertToGlobalXY(lat, lng);
+            double percentX = (global[0] - topLeftXY[0]) / (bottomRightXY[0] - topLeftXY[0]);
+            double percentY = (global[1] - topLeftXY[1]) / (bottomRightXY[1] - topLeftXY[1]);
+
+            return new double[]{topLeft[0] + (bottomRightXY[0] - topLeftXY[0]) * percentX,
+                                topLeft[0] + (bottomRightXY[1] - topLeftXY[1]) * percentY};
+        }
+    }
 
     private static Edge[] flights;
     private static Node[] airports;
@@ -69,6 +121,19 @@ public class IOParser {
         flights = new Edge[numEdges];
         airports = new Node[numNodes];
 
+        for(Vertex v : graph.getVertices()){
+            int nodeID = Integer.valueOf((String) v.getId());
+            String name = v.getProperty("tooltip").toString();
+            airports[nodeID] = parseAirportData(nodeID, name);
+
+        }
+        System.out.println(Arrays.stream(airports).mapToDouble(e-> e.getPosition().getX()).min());
+        System.out.println(Arrays.stream(airports).mapToDouble(e-> e.getPosition().getX()).max());
+        System.out.println(Arrays.stream(airports).mapToDouble(e-> e.getPosition().getY()).min());
+        System.out.println(Arrays.stream(airports).mapToDouble(e-> e.getPosition().getY()).max());
+
+        // TODO: get min/max for lat/lng, build converter, convert each node..
+
 //        for(Vertex v : graph.getVertices()){
 //            int nodeID = Integer.valueOf((String) v.getId());
 //            String name = v.getProperty("tooltip").toString().split("\\(")[0];
@@ -78,7 +143,7 @@ public class IOParser {
 //        }
 
         // uses scaled values of point coordinates instead of the original ones
-        parseScaledGraph();
+//        parseScaledGraph();
 
         for(com.tinkerpop.blueprints.Edge e : graph.getEdges()){
             int nodeFromID = Integer.valueOf((String)e.getVertex(Direction.OUT).getId());
@@ -87,6 +152,7 @@ public class IOParser {
             Edge edge = new Edge(airports[nodeFromID], airports[nodeToID], flightID);
             flights[flightID] = edge;
         }
+
 
     }
 
