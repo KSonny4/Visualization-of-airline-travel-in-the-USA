@@ -5,8 +5,6 @@ import core.IOParser;
 import model.Node;
 import model.Edge;
 import java.io.*;
-import java.util.List;
-
 
 public class Main {
 
@@ -22,7 +20,7 @@ public class Main {
         fdeb.run();
 
 //        parser.printBundledEdges(edges);
-        parser.printToJson(flights);
+//        parser.printToJson(flights);
     }
 
 }

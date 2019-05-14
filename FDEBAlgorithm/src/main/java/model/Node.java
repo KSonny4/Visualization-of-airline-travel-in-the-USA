@@ -41,6 +41,10 @@ public class Node {
         return position;
     }
 
+    public void setPosition(double x, double y) {
+        this.position = new Coordinate(x,y);
+    }
+
     public int getID() {
         return ID;
     }
