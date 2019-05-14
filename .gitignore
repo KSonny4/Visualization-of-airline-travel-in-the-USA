@@ -1,17 +1,10 @@
-.idea/
-out
-target
-logs
-project/project
-project/target
-target
-tmp
-.history
-dist
+.idea
+/.idea
+FDEBAlgorithm/.idea
+FDEBAlgorithm/out
+FDEBAlgorithm/target
 /.idea
 /*.iml
 /out
-/.idea_modules
-/.classpath
-/.project
+
 
