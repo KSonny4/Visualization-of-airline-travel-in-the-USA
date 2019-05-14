@@ -119,8 +119,7 @@ public class GraphVisualiser implements Initializable, Observer {
         iterationsCountTextField.setText(String.valueOf(inputIterationsCount));
         cyclesCountTextField.setText(String.valueOf(inputCyclesCount));
 
-//        IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
-        IOParser IOParser = new IOParser("src/main/resources/migrations.xml");
+        IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
 
         Node[] airports = IOParser.getAirports();
         Edge[] flights = IOParser.getFlights();
