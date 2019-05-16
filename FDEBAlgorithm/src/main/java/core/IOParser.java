@@ -157,7 +157,6 @@ public class IOParser {
             }
         }
 
-        printNodes();
 
         // need to compute minimal and maximal latitude and longitude
         double minLat = Arrays.stream(nodes).mapToDouble(e-> e.getPosition().getX()).min().orElse(0);
@@ -170,8 +169,8 @@ public class IOParser {
                 .setTopLeftLatLong(maxLat, minLng)
                 .setBottomRightLatLong(minLat, maxLng)
                 .setTopLeftCanvasXY(100, 50)
-//                .setBottomRightCanvasXY(1050, 610)
-                .setBottomRightCanvasXY(1500, 610)
+                .setBottomRightCanvasXY(1050, 610)
+//                .setBottomRightCanvasXY(1550, 610)
                 .init();
 
         // convert location of nodes to XY canvas

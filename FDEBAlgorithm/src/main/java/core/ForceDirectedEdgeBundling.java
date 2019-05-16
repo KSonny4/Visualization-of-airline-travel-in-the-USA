@@ -205,17 +205,15 @@ public class ForceDirectedEdgeBundling implements Observable {
 
         double kP = K / (edges[currentEdgeID].getLength() * (subdivisionPointsCount + 1));
 
-        for (int i = 1; i < (subdivisionPointsCount + 1); i++) {
-            double x;
-            double y;
+        for (int currentSubdivisionPoint = 1; currentSubdivisionPoint < (subdivisionPointsCount + 1); currentSubdivisionPoint++) {
 
-            Coordinate springForce = calculateSpringForce(currentEdgeID, i, kP);
-            Coordinate electroStaticForce = calculateElectrostaticForce(currentEdgeID, i);
+            Coordinate springForce = calculateSpringForce(currentEdgeID, currentSubdivisionPoint, kP);
+            Coordinate electroStaticForce = calculateElectrostaticForce(currentEdgeID, currentSubdivisionPoint);
 
-            x = stepSize * (springForce.getX() + electroStaticForce.getX());
-            y = stepSize * (springForce.getY() + electroStaticForce.getY());
+            double totalForceX = stepSize * (springForce.getX() + electroStaticForce.getX());
+            double totalForceY = stepSize * (springForce.getY() + electroStaticForce.getY());
 
-            forces.add(new Coordinate(x, y));
+            forces.add(new Coordinate(totalForceX, totalForceY));
 
         }
 
@@ -236,28 +234,36 @@ public class ForceDirectedEdgeBundling implements Observable {
 
             List<Node> subdivisionPoints = edge.getSubdivisionPoints();
 
+            // if edge has not yet been divided, add only its midpoint
             if (newSubdivisionPointsCount == 1) {
                 subdivisionPoints.add(edge.getFrom());
                 Coordinate midpoint = edge.getMidpoint();
                 subdivisionPoints.add(new Node(midpoint.getX(), midpoint.getY()));
                 subdivisionPoints.add(edge.getTo());
             } else {
+
+
+                List<Node> newEdgeSubdivisions = new ArrayList<>();
+                newEdgeSubdivisions.add(edge.getFrom());
+
+                // get length of segment in current iteration
                 final double segmentLength = edge.getCurvedLength() / (newSubdivisionPointsCount + 1);
                 double currSegmentLength = segmentLength;
 
-                List<Node> newEdgeSubdivisions = new ArrayList<>(edges.length);
-                newEdgeSubdivisions.add(edge.getFrom());
-
                 for (int j = 1; j < subdivisionPoints.size(); j++) {
 
+                    // get length of segment in previous iteration
                     double oldSegmentLength = subdivisionPoints.get(j).getPosition().euclideanDistance(subdivisionPoints.get(j - 1).getPosition());
 
                     while (oldSegmentLength > currSegmentLength) {
 
+                        // calculate fraction of segment lengths between current and previous iteration
                         double percentage = currSegmentLength / oldSegmentLength;
                         double x = subdivisionPoints.get(j - 1).getPosition().getX();
                         double y = subdivisionPoints.get(j - 1).getPosition().getY();
 
+                        // calculate new subdivision point coordinate as a multiple of its current coordinate and the
+                        // calculated percentage
                         x += percentage * (subdivisionPoints.get(j).getPosition().getX() - x);
                         y += percentage * (subdivisionPoints.get(j).getPosition().getY() - y);
 

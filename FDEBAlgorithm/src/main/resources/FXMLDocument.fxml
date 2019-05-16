@@ -15,12 +15,12 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
             <TextField fx:id="stepSizeTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="0.1" />
-            <Label alignment="CENTER" text="Compatibility (0, 1)">
+            <Label alignment="CENTER" text="Compatibility threshold (0, 1)">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
             <TextField fx:id="compatibilityTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="0.6" />
-            <Label alignment="CENTER" text="Edge stiffness (0, 1)">
+            <Label alignment="CENTER" text="K (edge stiffness) (0, 1)">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin></Label>
@@ -45,8 +45,8 @@
       </VBox>
    </right>
    <center>
-<!--      <Canvas fx:id="canvas" height="640.0" width="1126.0" BorderPane.alignment="CENTER">-->
-      <Canvas fx:id="canvas" height="640.0" width="1676.0" BorderPane.alignment="CENTER">
+      <Canvas fx:id="canvas" height="640.0" width="1126.0" BorderPane.alignment="CENTER">
+<!--      <Canvas fx:id="canvas" height="640.0" width="1676.0" BorderPane.alignment="CENTER">-->
          <BorderPane.margin>
             <Insets right="60.0" />
          </BorderPane.margin></Canvas>

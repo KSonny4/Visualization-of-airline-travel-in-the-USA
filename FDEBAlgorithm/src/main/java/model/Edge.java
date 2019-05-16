@@ -50,7 +50,7 @@ public class Edge {
         return to;
     }
 
-    private Coordinate vector(){
+    public Coordinate vector(){
         return new Coordinate(to.getPosition().getX() - from.getPosition().getX(), to.getPosition().getY() - from.getPosition().getY());
     }
 

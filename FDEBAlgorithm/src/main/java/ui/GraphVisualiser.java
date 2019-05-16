@@ -154,7 +154,7 @@ public class GraphVisualiser implements Initializable, Observer {
         }
         if(inputIterationsCount > 250){
             Alert alert = new Alert(Alert.AlertType.WARNING,
-                    String.format("Numbef of iterations (%d) is high, computation might take some time...", inputIterationsCount), continueAnyway
+                    String.format("Number of iterations (%d) is high, computation might take some time...", inputIterationsCount), continueAnyway
                     , ButtonType.CANCEL);
             alert.setResizable(true);
             alerts.add(alert);
