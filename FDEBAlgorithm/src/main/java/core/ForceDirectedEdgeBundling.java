@@ -9,65 +9,78 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Class performing Force-Directed Edge Bundling algorithm based on this paper:
+ * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf
+ *
+ * In addition to parameters listed in the constructor, instance takes additional parameters:
+ * INITIAL_SUBDIVISION_POINTS_COUNT - initial number of subdivision points of each edge, 1 by default
+ * ITERATIONS_INCREASE_RATE - multiplier of number of iterations (used after each cycle), 0.66 by default
+ * SUBDIVISION_POINTS_RATE - divisor of number of subdivision points (used after each cycle), 2 by default
+ *
+ */
 public class ForceDirectedEdgeBundling implements Observable {
 
     private static final Logger LOGGER = Logger.getLogger(ForceDirectedEdgeBundling.class.getName());
 
     private final double STEP_SIZE;
     private final double COMPATIBILITY;
-    private final double EDGE_STIFFNESS;
+    private final double K;
     private final int CYCLES_COUNT;
     private final int ITERATIONS_COUNT;
-    private final double EPS = 0.000001;
     private final int INITIAL_SUBDIVISION_POINTS_COUNT = 1;
     private final double ITERATIONS_INCREASE_RATE = 0.666;
     private final int SUBDIVISION_POINTS_RATE = 2;
 
-    private Node[] airports;
-    private Edge[] flights;
+    private Node[] nodes;
+    private Edge[] edges;
 
     private List<Observer> observers;
 
     /**
      * Constructor called from GUI with user-specified values.
      *
-     * @param airports
-     * @param flights
-     * @param STEP_SIZE
-     * @param COMPATIBILITY
-     * @param EDGE_STIFFNESS
-     * @param ITERATIONS_COUNT
-     * @param CYCLES_COUNT
+     * @param edges array of edges representing edges of graph indexed by its ID
+     * @param edges array of edges representing edges of graph indexed by its ID
+     * @param STEP_SIZE constant determining the size of step each subdivision point performs in the direction of
+     *                  force
+     * @param COMPATIBILITY compatibility threshold determining which pairs of edges will interact with each other
+     * @param K flexibility of edges
+     * @param ITERATIONS_COUNT number of iterations to perform
+     * @param CYCLES_COUNT number of cycles to perform
      */
-    public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights, double STEP_SIZE, double COMPATIBILITY, double EDGE_STIFFNESS
+    public ForceDirectedEdgeBundling(Node[] nodes, Edge[] edges, double STEP_SIZE, double COMPATIBILITY, double K
     , int ITERATIONS_COUNT, int CYCLES_COUNT) {
         this.STEP_SIZE = STEP_SIZE;
         this.COMPATIBILITY = COMPATIBILITY;
-        this.EDGE_STIFFNESS = EDGE_STIFFNESS;
+        this.K = K;
         this.ITERATIONS_COUNT = ITERATIONS_COUNT;
         this.CYCLES_COUNT = CYCLES_COUNT;
-        this.airports = airports;
-        this.flights = flights;
+        this.nodes = nodes;
+        this.edges = edges;
         this.observers = new ArrayList<>();
     }
 
     /**
      * Uses default values for algorithm.
      *
-     * @param airports
-     * @param flights
+     * @param nodes array of nodes representing nodes of graph indexed by its ID
+     * @param edges array of edges representing edges of graph indexed by its ID
      */
-    public ForceDirectedEdgeBundling(Node[] airports, Edge[] flights){
-        this(airports, flights, 0.1, 0.6, 0.9, 60, 5);
+    public ForceDirectedEdgeBundling(Node[] nodes, Edge[] edges){
+        this(nodes, edges, 0.1, 0.6, 0.9, 60, 5);
     }
 
-
+    /**
+     * Runs FDEB Algorithm on selected dataset.
+     */
     public void run(){
 
         LOGGER.log(Level.INFO, String.format("Running FDEG Algorithm with configuration:" +
-                " \n STEP_SIZE %f \n EDGE_STIFFNESS %f \n COMPATIBILITY %f \n INITIAL_SUBDIVISION_POINTS %d \n" +
+                " \n STEP_SIZE %f \n K %f \n COMPATIBILITY %f \n INITIAL_SUBDIVISION_POINTS %d \n" +
                         " ITERATIONS %d \n CYCLES %d \n",
-                STEP_SIZE, EDGE_STIFFNESS, COMPATIBILITY, INITIAL_SUBDIVISION_POINTS_COUNT, ITERATIONS_COUNT, CYCLES_COUNT));
+                STEP_SIZE, K, COMPATIBILITY, INITIAL_SUBDIVISION_POINTS_COUNT, ITERATIONS_COUNT, CYCLES_COUNT));
 
         if(CYCLES_COUNT > 15 || ITERATIONS_COUNT > 300)
             LOGGER.log(Level.WARNING, "HIGH NUMBER OF ITERATIONS OR CYCLES, ALGORITHM MIGHT RUN TOO LONG...");
@@ -89,15 +102,15 @@ public class ForceDirectedEdgeBundling implements Observable {
 
                 notifyObservers(iter, cycle, false);
 
-                List<List<Coordinate>> forces = new ArrayList<>(flights.length);
-                for (int i = 0; i < flights.length ; i++) {
-                    forces.add(applyForces(i, currentSubdivisionPointsCount, currentStepSize));
+                List<List<Coordinate>> forces = new ArrayList<>(edges.length);
+                for (int i = 0; i < edges.length ; i++) {
+                    forces.add(calculateTotalForce(i, currentSubdivisionPointsCount, currentStepSize));
                 }
 
-                for (int i = 0; i < flights.length; i++) {
+                for (int i = 0; i < edges.length; i++) {
                     for (int j = 0; j < currentSubdivisionPointsCount + 1; j++) {
                         Coordinate force = forces.get(i).get(j);
-                        flights[i].getSubdivisionPoints().get(j).alterPositionBy(force.getX(), force.getY());
+                        edges[i].getSubdivisionPoints().get(j).alterPositionBy(force.getX(), force.getY());
                     }
                 }
             }
@@ -109,28 +122,50 @@ public class ForceDirectedEdgeBundling implements Observable {
             updateEdgeSubdivisions(currentSubdivisionPointsCount);
         }
 
+        // notify GUI that algorithm has finished, to draw the result
         notifyObservers(0, 0, true);
 
     }
 
+    /**
+     * Calculates spring force applied on given subdivision point of given edge
+     * F_s = k_p * ||p_1 - p_2||  + k_p * ||p_2 - p_3|| where p_1,2,3 are adjacent subdivision points
+     *
+     * @param edgeID
+     * @param i
+     * @param kP
+     * @return
+     */
     private Coordinate calculateSpringForce(int edgeID, int i, double kP){
-        Node curr = flights[edgeID].getSubdivisionPoints().get(i);
-        Node prev = flights[edgeID].getSubdivisionPoints().get(i-1);
-        Node next = flights[edgeID].getSubdivisionPoints().get(i+1);
+        Node prev = edges[edgeID].getSubdivisionPoints().get(i-1);
+        Node curr = edges[edgeID].getSubdivisionPoints().get(i);
+        Node next = edges[edgeID].getSubdivisionPoints().get(i+1);
 
         return new Coordinate((prev.getPosition().getX() + next.getPosition().getX() - 2*curr.getPosition().getX()) * kP,
                 (prev.getPosition().getY() + next.getPosition().getY() - 2*curr.getPosition().getY()) * kP);
     }
 
+
+    /**
+     * Calculates electrostatic force applied on given edge
+     * F_e = 1 / ||p - q|| where p and q are corresponding subdivision points
+     *
+     * @param currentEdgeID
+     * @param i
+     * @return
+     */
     private Coordinate calculateElectrostaticForce(int currentEdgeID, int i){
         double x = 0;
         double y = 0;
+        // constant to ignore forces if they are too small
+        final double EPS = 0.0001;
 
-        List<Edge> compatibleEdges = flights[currentEdgeID].getCompatibleEdges();
+        List<Edge> compatibleEdges = edges[currentEdgeID].getCompatibleEdges();
 
         for(Edge compatibleEdge : compatibleEdges) {
 
-            List<Node> currentEdgeSubdivisionPoints = flights[currentEdgeID].getSubdivisionPoints();
+            // list of subdivision points for current edge and its compatible edge
+            List<Node> currentEdgeSubdivisionPoints = edges[currentEdgeID].getSubdivisionPoints();
             List<Node> compatibleEdgeSubdivisionPoints = compatibleEdge.getSubdivisionPoints();
 
             double forceX = compatibleEdgeSubdivisionPoints.get(i).getPosition().getX() -
@@ -138,75 +173,93 @@ public class ForceDirectedEdgeBundling implements Observable {
             double forceY = compatibleEdgeSubdivisionPoints.get(i).getPosition().getY() -
                     currentEdgeSubdivisionPoints.get(i).getPosition().getY();
 
-            Coordinate force = new Coordinate(forceX, forceY);
+            // ignore force between current edge and its compatible edge of its too small
+            if(Math.abs(forceX) < EPS || Math.abs(forceY) < EPS)
+                continue;
 
+            Coordinate src = compatibleEdgeSubdivisionPoints.get(i).getPosition();
+            double divisor = src.euclideanDistance(currentEdgeSubdivisionPoints.get(i).getPosition());
 
-            if (Math.abs(force.getX()) > EPS || Math.abs(force.getY()) > EPS) {
-                Coordinate src = compatibleEdgeSubdivisionPoints.get(i).getPosition();
-                double diff = (1 / Math.pow(src.euclideanDistance(currentEdgeSubdivisionPoints.get(i).getPosition()), 1));
+            x += forceX / divisor;
+            y += forceY / divisor;
 
-                x += force.getX() * diff;
-                y += force.getY() * diff;
-            }
         }
 
         return new Coordinate(x, y);
     }
 
 
-    private List<Coordinate> applyForces(int currentEdgeID, final int SEGMENTS_COUNT, final double S){
+    /**
+     * Calculates total resulting force on given edge
+     *
+     * @param currentEdgeID
+     * @param subdivisionPointsCount
+     * @param stepSize
+     * @return
+     */
+    private List<Coordinate> calculateTotalForce(int currentEdgeID, int subdivisionPointsCount, double stepSize){
+
         List<Coordinate> forces = new ArrayList<>();
+        // zero force of start-point of edge
         forces.add(new Coordinate(0,0));
 
-        double kP = EDGE_STIFFNESS / (flights[currentEdgeID].getLength(EPS) * (SEGMENTS_COUNT + 1));
+        double kP = K / (edges[currentEdgeID].getLength() * (subdivisionPointsCount + 1));
 
-        for (int i = 1; i < (SEGMENTS_COUNT + 1); i++) {
+        for (int i = 1; i < (subdivisionPointsCount + 1); i++) {
             double x;
             double y;
 
             Coordinate springForce = calculateSpringForce(currentEdgeID, i, kP);
             Coordinate electroStaticForce = calculateElectrostaticForce(currentEdgeID, i);
 
-            x = S * (springForce.getX() + electroStaticForce.getX());
-            y = S * (springForce.getY() + electroStaticForce.getY());
+            x = stepSize * (springForce.getX() + electroStaticForce.getX());
+            y = stepSize * (springForce.getY() + electroStaticForce.getY());
 
             forces.add(new Coordinate(x, y));
 
         }
 
+        // zero force of end-point of edge
         forces.add(new Coordinate(0,0));
         return forces;
     }
 
-    private void updateEdgeSubdivisions(final int SEGMENTS_COUNT){
-        for (Edge flight : flights) {
 
-            List<Node> subdivisionPoints = flight.getSubdivisionPoints();
+    /**
+     * Calculates new list of subdivision points for each edge, based on its current list of subdivision points
+     *
+     * @param newSubdivisionPointsCount
+     */
+    private void updateEdgeSubdivisions(int newSubdivisionPointsCount){
 
-            if (SEGMENTS_COUNT == 1) {
-                subdivisionPoints.add(flight.getFrom());
-                Coordinate midpoint = flight.getMidpoint();
+        for (Edge edge : edges) {
+
+            List<Node> subdivisionPoints = edge.getSubdivisionPoints();
+
+            if (newSubdivisionPointsCount == 1) {
+                subdivisionPoints.add(edge.getFrom());
+                Coordinate midpoint = edge.getMidpoint();
                 subdivisionPoints.add(new Node(midpoint.getX(), midpoint.getY()));
-                subdivisionPoints.add(flight.getTo());
+                subdivisionPoints.add(edge.getTo());
             } else {
-                double dividedLength = flight.getDividedEdgeLength(subdivisionPoints);
-                final double segmentLength = dividedLength / (SEGMENTS_COUNT + 1);
+                final double segmentLength = edge.getCurvedLength() / (newSubdivisionPointsCount + 1);
                 double currSegmentLength = segmentLength;
 
-                List<Node> newEdgeSubdivisions = new ArrayList<>(flights.length);
-                newEdgeSubdivisions.add(flight.getFrom());
+                List<Node> newEdgeSubdivisions = new ArrayList<>(edges.length);
+                newEdgeSubdivisions.add(edge.getFrom());
 
                 for (int j = 1; j < subdivisionPoints.size(); j++) {
 
                     double oldSegmentLength = subdivisionPoints.get(j).getPosition().euclideanDistance(subdivisionPoints.get(j - 1).getPosition());
 
                     while (oldSegmentLength > currSegmentLength) {
+
                         double percentage = currSegmentLength / oldSegmentLength;
                         double x = subdivisionPoints.get(j - 1).getPosition().getX();
                         double y = subdivisionPoints.get(j - 1).getPosition().getY();
 
-                        x += percentage * (subdivisionPoints.get(j).getPosition().getX() - subdivisionPoints.get(j - 1).getPosition().getX());
-                        y += percentage * (subdivisionPoints.get(j).getPosition().getY() - subdivisionPoints.get(j - 1).getPosition().getY());
+                        x += percentage * (subdivisionPoints.get(j).getPosition().getX() - x);
+                        y += percentage * (subdivisionPoints.get(j).getPosition().getY() - y);
 
                         newEdgeSubdivisions.add(new Node(x, y));
 
@@ -217,20 +270,23 @@ public class ForceDirectedEdgeBundling implements Observable {
                     currSegmentLength -= oldSegmentLength;
                 }
 
-                newEdgeSubdivisions.add(flight.getTo());
+                newEdgeSubdivisions.add(edge.getTo());
 
-                flight.setSubdivisionPoints(newEdgeSubdivisions);
+                edge.setSubdivisionPoints(newEdgeSubdivisions);
 
             }
         }
     }
 
+    /**
+     * Determines the list of compatible edges for each edge
+     */
     private void calculateCompatibilities(){
-        for (int i = 0; i < flights.length - 1; i++) {
-            for (int j = i + 1; j < flights.length; j++) {
-                if(flights[i].compatible(flights[j], COMPATIBILITY)){
-                    flights[i].addCompatibleEdge(flights[j]);
-                    flights[j].addCompatibleEdge(flights[i]);
+        for (int i = 0; i < edges.length - 1; i++) {
+            for (int j = i + 1; j < edges.length; j++) {
+                if(edges[i].compatible(edges[j], COMPATIBILITY)){
+                    edges[i].addCompatibleEdge(edges[j]);
+                    edges[j].addCompatibleEdge(edges[i]);
                 }
             }
         }
@@ -245,7 +301,7 @@ public class ForceDirectedEdgeBundling implements Observable {
     public void notifyObservers(int iteration, int cycle, boolean finished) {
         for(Observer observer : observers){
             if(finished)
-                observer.finished(airports, flights);
+                observer.finished(nodes, edges);
             else
                 observer.updateProcessInfo(iteration, cycle);
         }

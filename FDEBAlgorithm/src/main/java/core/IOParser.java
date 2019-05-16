@@ -73,8 +73,8 @@ public class IOParser {
         }
     }
 
-    private static Edge[] flights;
-    private static Node[] airports;
+    private static Edge[] edges;
+    private static Node[] nodes;
 
     /**
      * Initializes IOParser with specified {@code path}.
@@ -89,12 +89,12 @@ public class IOParser {
 
     /**
      * Defines nodes by their latitude/longitude coordinates rather by their x/y mappings.
+     * This method should be called when running the airlines.graphml dataset.
      *
      * @param ID
      * @param data
      * @return
      */
-    @SuppressWarnings("unused")
     private Node parseAirportData(final int ID, String data){
         String[] splitted = data.split("\\(");
         String name = splitted[0];
@@ -109,9 +109,25 @@ public class IOParser {
         return new Node(laty, lngx, ID, name);
     }
 
+    /**
+     * Method used to parse migrations.xml dataset.
+     *
+     * @param v
+     * @return
+     */
+    private Node parseMigrationsData(Vertex v){
+        int nodeID = Integer.valueOf((String) v.getId());
+        String name = v.getProperty("tooltip").toString();
+        double x = Double.valueOf(v.getProperty("x").toString());
+        double y = Double.valueOf(v.getProperty("y").toString());
+        x /= 10;
+        y /= 10;
+        return new Node(-y, x, nodeID, name);
+    }
+
 
     /**
-     * Loads and parses input data. Stores data into {@code flights} and {@code airports} arrays.
+     * Loads and parses input data. Stores data into {@code edges} and {@code nodes} arrays.
      *
      * @throws IOException
      */
@@ -126,31 +142,40 @@ public class IOParser {
         final int numNodes = (int)graph.getVertices().spliterator().getExactSizeIfKnown();
         final int numEdges = (int)graph.getEdges().spliterator().getExactSizeIfKnown();
 
-        flights = new Edge[numEdges];
-        airports = new Node[numNodes];
+        edges = new Edge[numEdges];
+        nodes = new Node[numNodes];
 
         for(Vertex v : graph.getVertices()){
             int nodeID = Integer.valueOf((String) v.getId());
-            String name = v.getProperty("tooltip").toString();
-            airports[nodeID] = parseAirportData(nodeID, name);
+
+            if(pathToFile.contains("migrations")){
+                nodes[nodeID] = parseMigrationsData(v);
+            }else{
+
+                String name = v.getProperty("tooltip").toString();
+                nodes[nodeID] = parseAirportData(nodeID, name);
+            }
         }
 
+        printNodes();
+
         // need to compute minimal and maximal latitude and longitude
-        double minLat = Arrays.stream(airports).mapToDouble(e-> e.getPosition().getX()).min().orElse(0);
-        double maxLat = Arrays.stream(airports).mapToDouble(e-> e.getPosition().getX()).max().orElse(0);
-        double minLng = Arrays.stream(airports).mapToDouble(e-> e.getPosition().getY()).min().orElse(0);
-        double maxLng = Arrays.stream(airports).mapToDouble(e-> e.getPosition().getY()).max().orElse(0);
+        double minLat = Arrays.stream(nodes).mapToDouble(e-> e.getPosition().getX()).min().orElse(0);
+        double maxLat = Arrays.stream(nodes).mapToDouble(e-> e.getPosition().getX()).max().orElse(0);
+        double minLng = Arrays.stream(nodes).mapToDouble(e-> e.getPosition().getY()).min().orElse(0);
+        double maxLng = Arrays.stream(nodes).mapToDouble(e-> e.getPosition().getY()).max().orElse(0);
 
         // initialize latLong <-> canvasXY converter
         LatLongConverter converter = new LatLongConverter()
                 .setTopLeftLatLong(maxLat, minLng)
                 .setBottomRightLatLong(minLat, maxLng)
                 .setTopLeftCanvasXY(100, 50)
-                .setBottomRightCanvasXY(1050, 610)
+//                .setBottomRightCanvasXY(1050, 610)
+                .setBottomRightCanvasXY(1500, 610)
                 .init();
 
         // convert location of nodes to XY canvas
-        for(Node airport : airports){
+        for(Node airport : nodes){
             double[] xy = converter.convertLatLngToXY(airport.getPosition().getX(), airport.getPosition().getY());
             airport.setPosition(xy[0], xy[1]);
         }
@@ -159,27 +184,26 @@ public class IOParser {
             int nodeFromID = Integer.valueOf((String)e.getVertex(Direction.OUT).getId());
             int nodeToID = Integer.valueOf((String)e.getVertex(Direction.IN).getId());
             int flightID = Integer.valueOf((String) e.getId());
-            Edge edge = new Edge(airports[nodeFromID], airports[nodeToID], flightID);
-            flights[flightID] = edge;
+            Edge edge = new Edge(nodes[nodeFromID], nodes[nodeToID], flightID);
+            edges[flightID] = edge;
         }
 
-
     }
 
     @SuppressWarnings("unused")
-    public void printAirports(){
-        Arrays.stream(airports).forEach(System.out::println);
+    public void printNodes(){
+        Arrays.stream(nodes).forEach(System.out::println);
     }
 
     @SuppressWarnings("unused")
-    public void printFlights(){
-        Arrays.stream(flights).forEach(System.out::println);
+    public void printEdges(){
+        Arrays.stream(edges).forEach(System.out::println);
     }
 
     @SuppressWarnings("unused")
     public void printBundledEdges(List<List<Node>> edgeSubdivisions){
         for (int i = 0; i < edgeSubdivisions.size(); i++) {
-            System.out.println(flights[i]);
+            System.out.println(edges[i]);
             for(Node point : edgeSubdivisions.get(i)){
                 System.out.println("\t " + point.getPosition());
             }
@@ -211,21 +235,21 @@ public class IOParser {
     }
 
     /**
-     * Retrieve parsed airports
+     * Retrieve parsed nodes
      *
      * @return
      */
-    public Node[] getAirports(){
-        return airports;
+    public Node[] getNodes(){
+        return nodes;
     }
 
     /**
-     * Retrieve parsed flights
+     * Retrieve parsed edges
      *
      * @return
      */
-    public Edge[] getFlights(){
-        return flights;
+    public Edge[] getEdges(){
+        return edges;
     }
 
 }

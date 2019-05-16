@@ -120,11 +120,12 @@ public class GraphVisualiser implements Initializable, Observer {
         cyclesCountTextField.setText(String.valueOf(inputCyclesCount));
 
         IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
+//        IOParser IOParser = new IOParser("src/main/resources/migrations.xml");
 
-        Node[] airports = IOParser.getAirports();
-        Edge[] flights = IOParser.getFlights();
+        Node[] nodes = IOParser.getNodes();
+        Edge[] edges = IOParser.getEdges();
 
-        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights, inputStepSize, inputCompatibility, inputEdgeStiffness,inputIterationsCount, inputCyclesCount);
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(nodes, edges, inputStepSize, inputCompatibility, inputEdgeStiffness,inputIterationsCount, inputCyclesCount);
         fdeb.registerObserver(this);
 
         new Thread(fdeb::run).start();
@@ -170,9 +171,9 @@ public class GraphVisualiser implements Initializable, Observer {
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        for (Node airport : nodes) {
-            double x = airport.getPosition().getX();
-            double y = airport.getPosition().getY();
+        for (Node node : nodes) {
+            double x = node.getPosition().getX();
+            double y = node.getPosition().getY();
 
             gc.setFill(Color.BLUE);
 
@@ -182,10 +183,10 @@ public class GraphVisualiser implements Initializable, Observer {
         }
 
 
-        for (Edge flight : edges) {
+        for (Edge edge : edges) {
             ArrayList<Double> points = new ArrayList<>();
 
-            for (Node n : flight.getSubdivisionPoints()) {
+            for (Node n : edge.getSubdivisionPoints()) {
                 points.add(n.getPosition().getX() + OK2);
                 points.add(n.getPosition().getY());
             }

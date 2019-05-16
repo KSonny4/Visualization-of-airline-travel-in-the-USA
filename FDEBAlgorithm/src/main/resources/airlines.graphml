@@ -9,7 +9,7 @@
   <key id="y" for="node" attr.name="y" attr.type="double"/>
 
   <graph edgedefault="undirected">
-    <!-- airports -->
+    <!-- nodes -->
     <node id="0">
       <data key="x">-922.24444</data>
       <data key="tooltip">LIT(lngx=-92.224444,laty=34.729444)</data>

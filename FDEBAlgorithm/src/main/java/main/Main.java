@@ -13,14 +13,14 @@ public class Main {
 
         IOParser parser = new IOParser("src/main/resources/airlines.graphml");
 
-        Node[] airports = parser.getAirports();
-        Edge[] flights = parser.getFlights();
+        Node[] nodes = parser.getNodes();
+        Edge[] edges = parser.getEdges();
 
-        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(airports, flights);
+        ForceDirectedEdgeBundling fdeb = new ForceDirectedEdgeBundling(nodes, edges);
         fdeb.run();
 
 //        parser.printBundledEdges(edges);
-//        parser.printToJson(flights);
+//        parser.printToJson(edges);
     }
 
 }

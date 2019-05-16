@@ -50,29 +50,33 @@ public class Edge {
         return to;
     }
 
-    public Coordinate asVector(){
+    private Coordinate vector(){
         return new Coordinate(to.getPosition().getX() - from.getPosition().getX(), to.getPosition().getY() - from.getPosition().getY());
     }
 
-    public double getLength(final double EPS){
-        if(Math.abs(from.getPosition().getX() - to.getPosition().getX()) <= EPS ||
-                Math.abs(from.getPosition().getY() - to.getPosition().getY()) <= EPS){
-            return EPS;
-        }
-
+    /**
+     * Returns the length of this edge as euclidean distance between start-point and end-point
+     * @return
+     */
+    public double getLength(){
         return from.getPosition().euclideanDistance(to.getPosition());
     }
 
-    public double getLength(){
-        return getLength(0.000001);
-    }
 
+    /**
+     * Returns the middle point of this edge
+     * @return
+     */
     public Coordinate getMidpoint(){
         return new Coordinate((from.getPosition().getX() + to.getPosition().getX()) / 2.0,
                 (from.getPosition().getY() + to.getPosition().getY()) / 2.0);
     }
 
-    public double getDividedEdgeLength(List<Node> subdivisionPoints){
+    /**
+     * Returns the length of this edge which is already curved based on its subdivision points
+     * @return
+     */
+    public double getCurvedLength(){
         double length = 0;
 
         for (int i = 1; i < subdivisionPoints.size(); i++) {
@@ -81,44 +85,90 @@ public class Edge {
         return length;
     }
 
-    public double angleCompatibility(Edge other){
-
-        return Math.abs(this.asVector().dotProduct(other.asVector()) / (this.getLength() * other.getLength()));
+    /**
+     * Returns angle compatibility value of this edge and {@param other} edge
+     * C_a(P,Q) = |cos(arccos(dot(P,Q) / length(P)*length(Q))|
+     *
+     * @param other
+     * @return
+     */
+    private double angleCompatibility(Edge other){
+        return Math.abs(this.vector().dotProduct(other.vector()) / (this.getLength() * other.getLength()));
     }
 
-    public double scaleCompatibility(Edge other){
-        double lavg = (this.getLength() + other.getLength()) / 2;
+    /**
+     * Returns scale compatibility value of this edge and {@param other} edge
+     * C_s(P,Q) = 2 / (l_avg / min(length(P), length(Q) + max(length(P), length(Q)) / l_avg)
+     *
+     * @param other
+     * @return
+     */
+    private double scaleCompatibility(Edge other){
+        double l_avg = (this.getLength() + other.getLength()) / 2;
 
-        return 2 / (lavg / Math.min(this.getLength(), other.getLength()) + Math.max(this.getLength(), other.getLength()) / lavg);
+        return 2 / (l_avg / Math.min(this.getLength(), other.getLength()) + Math.max(this.getLength(), other.getLength()) / l_avg);
     }
 
-    public double positionCompatibility(Edge other){
-        double lavg = (this.getLength() + other.getLength()) / 2;
+    /**
+     * Returns position compatibility value of this edge and {@param other} edge
+     * C_p(P,Q) = l_avg / (l_avg + ||P_m = Q_m||), where P_m and Q_m are midpoints of edges P and Q
+     *      * and l_avg is average length of edges P and Q
+     *
+     * @param other
+     * @return
+     */
+    private double positionCompatibility(Edge other){
+        double l_avg = (this.getLength() + other.getLength()) / 2;
 
-        return lavg / (lavg + this.getMidpoint().euclideanDistance(other.getMidpoint()));
+        return l_avg / (l_avg + this.getMidpoint().euclideanDistance(other.getMidpoint()));
     }
 
-    public double edgeVisibility(Edge other){
+
+    /**
+     * Return the visibility value of this edge and {@param other} edge
+     * visibility(P,Q) = max(1 - (2 * || P_m - I_m||) / ||Io_ - I1||, 0)
+     *
+     * @param other
+     * @return
+     */
+    private double edgeVisibility(Edge other){
         Node i0 = other.getFrom().projectPointOnLine(this);
         Node i1 = other.getTo().projectPointOnLine(this);
 
-        Coordinate midI = new Edge(i0, i1, -1).getMidpoint();
-        Coordinate midP = this.getMidpoint();
+        Coordinate P_m = this.getMidpoint();
+        Coordinate I_m = new Edge(i0, i1, -1).getMidpoint();
 
-        return Math.max(0, 1 - 2 * midI.euclideanDistance(midP) / i0.getPosition().euclideanDistance(i1.getPosition()));
+        return Math.max(1 - 2 * I_m.euclideanDistance(P_m) / i0.getPosition().euclideanDistance(i1.getPosition()),0);
     }
 
-    public double visibilityCompatibilitu(Edge other){
+    /**
+     * Returns visibility compatibility value of this edge and {@param other} edge
+     * C_v(P,Q) = min(visibility(P,Q), visibility(Q,P))
+     *
+     * @param other
+     * @return
+     */
+    private double visibilityCompatibility(Edge other){
         return Math.min(this.edgeVisibility(other), other.edgeVisibility(this));
     }
 
-    public double compatibilityScore(Edge other){
-
-        return this.angleCompatibility(other) * this.scaleCompatibility(other) *  this.positionCompatibility(other)*  this.visibilityCompatibilitu(other);
+    /**
+     * Returns total compatibility score of this edge and {@param other} edge based on all four compatibility measures
+     * @param other
+     * @return
+     */
+    private double edgeCompatibilityScore(Edge other){
+        return this.angleCompatibility(other) * this.scaleCompatibility(other) *  this.positionCompatibility(other)*  this.visibilityCompatibility(other);
     }
 
+    /**
+     * Returns true if this edge and {@param other} edge are compatible within given threshold
+     * @param other
+     * @param threshold
+     * @return
+     */
     public boolean compatible(Edge other, double threshold){
-        return compatibilityScore(other) >= threshold;
+        return edgeCompatibilityScore(other) >= threshold;
     }
 
 

@@ -45,7 +45,8 @@
       </VBox>
    </right>
    <center>
-      <Canvas fx:id="canvas" height="640.0" width="1126.0" BorderPane.alignment="CENTER">
+<!--      <Canvas fx:id="canvas" height="640.0" width="1126.0" BorderPane.alignment="CENTER">-->
+      <Canvas fx:id="canvas" height="640.0" width="1676.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="60.0" />
          </BorderPane.margin></Canvas>

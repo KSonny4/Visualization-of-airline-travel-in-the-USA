@@ -33,6 +33,7 @@ public class Node {
         this.name = "custom";
     }
 
+
     public void alterPositionBy(double x, double y){
         this.position.alterBy(x, y);
     }
