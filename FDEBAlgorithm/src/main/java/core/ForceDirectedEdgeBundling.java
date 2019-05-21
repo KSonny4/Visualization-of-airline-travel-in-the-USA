@@ -262,8 +262,6 @@ public class ForceDirectedEdgeBundling implements Observable {
                         double x = subdivisionPoints.get(j - 1).getPosition().getX();
                         double y = subdivisionPoints.get(j - 1).getPosition().getY();
 
-                        // calculate new subdivision point coordinate as a multiple of its current coordinate and the
-                        // calculated percentage
                         x += percentage * (subdivisionPoints.get(j).getPosition().getX() - x);
                         y += percentage * (subdivisionPoints.get(j).getPosition().getY() - y);
 

@@ -33,7 +33,12 @@ public class Node {
         this.name = "custom";
     }
 
-
+    /**
+     * Adds given x and y values to its current coordinate
+     *
+     * @param x
+     * @param y
+     */
     public void alterPositionBy(double x, double y){
         this.position.alterBy(x, y);
     }
@@ -55,17 +60,15 @@ public class Node {
     }
 
     public Node projectPointOnLine(Edge other){
-        double L = Math.sqrt((other.getTo().getPosition().getX() - other.getFrom().getPosition().getX()) *
-                (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX()) +
-                (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()) *
-                        (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()));
-        double r = ((other.getFrom().getPosition().getY() - this.position.getY()) *
-                (other.getFrom().getPosition().getY() - other.getTo().getPosition().getY()) -
-                (other.getFrom().getPosition().getX() - this.position.getX()) *
-                        (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX())) / (L*L);
+        Coordinate otherVector = other.vector();
 
-        return new Node(other.getFrom().getPosition().getX() + r * (other.getTo().getPosition().getX() - other.getFrom().getPosition().getX()),
-                other.getFrom().getPosition().getY() + r * (other.getTo().getPosition().getY() - other.getFrom().getPosition().getY()));
+        double r = ((other.getFrom().getPosition().getY() - this.position.getY()) * (-otherVector.getY()) -
+                    (other.getFrom().getPosition().getX() - this.position.getX()) * (otherVector.getX())) /
+                    (Math.pow(other.getLength(), 2));
+
+
+        return new Node(other.getFrom().getPosition().getX() + r * (otherVector.getX()),
+                other.getFrom().getPosition().getY() + r * (otherVector.getY()));
     }
 
 

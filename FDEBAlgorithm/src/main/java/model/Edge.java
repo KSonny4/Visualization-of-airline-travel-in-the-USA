@@ -132,7 +132,9 @@ public class Edge {
      * @return
      */
     private double edgeVisibility(Edge other){
+        // intersect 0
         Node i0 = other.getFrom().projectPointOnLine(this);
+        // intersect 1
         Node i1 = other.getTo().projectPointOnLine(this);
 
         Coordinate P_m = this.getMidpoint();
