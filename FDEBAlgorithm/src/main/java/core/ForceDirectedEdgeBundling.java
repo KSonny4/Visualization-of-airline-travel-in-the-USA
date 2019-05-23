@@ -15,9 +15,9 @@ import java.util.logging.Logger;
  * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf
  *
  * In addition to parameters listed in the constructor, instance takes additional parameters:
- * INITIAL_SUBDIVISION_POINTS_COUNT - initial number of subdivision points of each edge, 1 by default
- * ITERATIONS_INCREASE_RATE - multiplier of number of iterations (used after each cycle), 0.66 by default
- * SUBDIVISION_POINTS_RATE - divisor of number of subdivision points (used after each cycle), 2 by default
+ * DEFAULT_SUBDIVISION_POINTS_COUNT - initial number of subdivision points of each edge, 1 by default
+ * DEFAULT_ITERATIONS_INCREASE_RATE - multiplier of number of iterations (used after each cycle), 0.66 by default
+ * DEFAULT_SUBDIVISION_POINTS_RATE - divisor of number of subdivision points (used after each cycle), 2 by default
  *
  */
 public class ForceDirectedEdgeBundling implements Observable {
@@ -29,9 +29,7 @@ public class ForceDirectedEdgeBundling implements Observable {
     private final double K;
     private final int CYCLES_COUNT;
     private final int ITERATIONS_COUNT;
-    private final int INITIAL_SUBDIVISION_POINTS_COUNT = 1;
-    private final double ITERATIONS_INCREASE_RATE = 0.666;
-    private final int SUBDIVISION_POINTS_RATE = 2;
+
 
     private Node[] nodes;
     private Edge[] edges;
@@ -69,7 +67,12 @@ public class ForceDirectedEdgeBundling implements Observable {
      * @param edges array of edges representing edges of graph indexed by its ID
      */
     public ForceDirectedEdgeBundling(Node[] nodes, Edge[] edges){
-        this(nodes, edges, 0.1, 0.6, 0.9, 60, 5);
+        this(nodes, edges,
+                Configuration.DEFAULT_STEP_SIZE,
+                Configuration.DEFAULT_COMPATIBILITY_THRESHOLD,
+                Configuration.DEFAULT_EDGE_STIFFNESS,
+                Configuration.DEFAULT_ITERATIONS_COUNT,
+                Configuration.DEFAULT_CYCLES_COUNT);
     }
 
     /**
@@ -80,14 +83,14 @@ public class ForceDirectedEdgeBundling implements Observable {
         LOGGER.log(Level.INFO, String.format("Running FDEG Algorithm with configuration:" +
                 " \n STEP_SIZE %f \n K %f \n COMPATIBILITY %f \n INITIAL_SUBDIVISION_POINTS %d \n" +
                         " ITERATIONS %d \n CYCLES %d \n",
-                STEP_SIZE, K, COMPATIBILITY, INITIAL_SUBDIVISION_POINTS_COUNT, ITERATIONS_COUNT, CYCLES_COUNT));
+                STEP_SIZE, K, COMPATIBILITY, Configuration.DEFAULT_SUBDIVISION_POINTS_COUNT, ITERATIONS_COUNT, CYCLES_COUNT));
 
         if(CYCLES_COUNT > 15 || ITERATIONS_COUNT > 300)
             LOGGER.log(Level.WARNING, "HIGH NUMBER OF ITERATIONS OR CYCLES, ALGORITHM MIGHT RUN TOO LONG...");
 
         double currentStepSize = STEP_SIZE;
         double currIterationsCount = ITERATIONS_COUNT;
-        int currentSubdivisionPointsCount = INITIAL_SUBDIVISION_POINTS_COUNT;
+        int currentSubdivisionPointsCount = Configuration.DEFAULT_SUBDIVISION_POINTS_COUNT;
 
         updateEdgeSubdivisions(currentSubdivisionPointsCount);
         calculateCompatibilities();
@@ -116,8 +119,8 @@ public class ForceDirectedEdgeBundling implements Observable {
             }
 
             currentStepSize /= 2;
-            currIterationsCount *= ITERATIONS_INCREASE_RATE;
-            currentSubdivisionPointsCount *= SUBDIVISION_POINTS_RATE;
+            currIterationsCount *= Configuration.DEFAULT_ITERATIONS_INCREASE_RATE;
+            currentSubdivisionPointsCount *= Configuration.DEFAULT_SUBDIVISION_POINTS_RATE;
 
             updateEdgeSubdivisions(currentSubdivisionPointsCount);
         }

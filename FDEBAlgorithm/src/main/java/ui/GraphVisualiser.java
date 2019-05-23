@@ -1,5 +1,6 @@
 package ui;
 
+import core.Configuration;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +30,8 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.apache.commons.lang.math.NumberUtils.isNumber;
 
 public class GraphVisualiser implements Initializable, Observer {
 
@@ -65,7 +68,7 @@ public class GraphVisualiser implements Initializable, Observer {
     //TODO Long,lat na x a y
 
 
-    private void addMouseScrolling(Canvas node) {
+    private void handleMouseScrolling(Canvas node) {
         final double SCALE_DELTA = 1.1;
 
         node.setOnScroll((ScrollEvent event) -> {
@@ -94,21 +97,50 @@ public class GraphVisualiser implements Initializable, Observer {
         });
     }
 
+    private boolean handleIntegerInput(String textFieldValue, int rangeFrom, int rangeTo){
+        if(textFieldValue.isEmpty()) return false;
+
+        if(!textFieldValue.matches("-?\\d+")) return false;
+
+        int value = Integer.parseInt(textFieldValue);
+
+        if(value >= rangeFrom && value <= rangeTo)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean handleDoubleInput(String textFieldValue, double rangeFrom, double rangeTo){
+        if(textFieldValue.isEmpty()) return false;
+
+        if(!isNumber(textFieldValue)) return false;
+
+        double value = Double.parseDouble(textFieldValue);
+
+        if(value >= rangeFrom && value <= rangeTo)
+            return true;
+        else
+            return false;
+    }
+
     @FXML
     private void handleVisButtonAction(ActionEvent event) throws IOException {
 
-        double inputCompatibility = Double.parseDouble(compatibilityTextField.getText());
-        double inputStepSize = Double.parseDouble(stepSizeTextField.getText());
-        double inputEdgeStiffness = Double.parseDouble(edgeStiffnessTextField.getText());
-        int inputIterationsCount = Integer.parseInt(iterationsCountTextField.getText());
-        int inputCyclesCount = Integer.parseInt(cyclesCountTextField.getText());
-
-        // set default value if input value is out of range
-        inputCompatibility = (inputCompatibility < 0 || inputCompatibility > 1) ? 0.6 : inputCompatibility;
-        inputStepSize =  (inputStepSize < 0 || inputStepSize > 3) ? 0.1 : inputStepSize;
-        inputEdgeStiffness =  (inputEdgeStiffness < 0 || inputEdgeStiffness > 1) ? 0.9 : inputEdgeStiffness;
-        inputIterationsCount =  (inputIterationsCount < 0 || inputIterationsCount > 400) ? 90 : inputIterationsCount;
-        inputCyclesCount =  (inputCyclesCount < 0 || inputCyclesCount > 20) ? 6 : inputCyclesCount;
+        double inputCompatibility = handleDoubleInput(compatibilityTextField.getText(), 0.0, 1.0) ?
+                Double.parseDouble(compatibilityTextField.getText()) :
+                Configuration.DEFAULT_COMPATIBILITY_THRESHOLD;
+        double inputStepSize = handleDoubleInput(stepSizeTextField.getText(), 0.0, 3.0) ?
+                Double.parseDouble(stepSizeTextField.getText()) :
+                Configuration.DEFAULT_STEP_SIZE;
+        double inputEdgeStiffness = handleDoubleInput(edgeStiffnessTextField.getText(), 0.0, 1.0) ?
+                Double.parseDouble(edgeStiffnessTextField.getText()) :
+                Configuration.DEFAULT_EDGE_STIFFNESS;
+        int inputIterationsCount = handleIntegerInput(iterationsCountTextField.getText(), 0, 400) ?
+                Integer.parseInt(iterationsCountTextField.getText()) :
+                Configuration.DEFAULT_ITERATIONS_COUNT;
+        int inputCyclesCount = handleIntegerInput(cyclesCountTextField.getText(), 0, 20) ?
+                Integer.parseInt(cyclesCountTextField.getText()) :
+                Configuration.DEFAULT_CYCLES_COUNT;
 
         // handle input values and raise alerts if selected values might cause long computation times
         handleInputValues(inputCompatibility, inputIterationsCount, inputCyclesCount);
@@ -268,12 +300,12 @@ public class GraphVisualiser implements Initializable, Observer {
         textFields.add(iterationsCountTextField);
         textFields.add(cyclesCountTextField);
         textFields.add(edgeStiffnessTextField);
-//        readTextField(compatibilityTextField);
-//        readTextField(stepSizeTextField);
-//        readTextField(iterationsCountTextField);
-//        readTextField(cyclesCountTextField);
-//        readTextField(edgeStiffnessTextField);
-        addMouseScrolling(canvas);
+        readTextField(compatibilityTextField);
+        readTextField(stepSizeTextField);
+        readTextField(iterationsCountTextField);
+        readTextField(cyclesCountTextField);
+        readTextField(edgeStiffnessTextField);
+        handleMouseScrolling(canvas);
         canvasScaleX = 1.0;
         canvasScaleY = 1.0;
     }
