@@ -17,7 +17,7 @@ public class RunGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        URL url = Paths.get( "src/main/resources/FXMLDocument.fxml").toUri().toURL();
+        URL url = Paths.get( "FDEBAlgorithm/src/main/resources/FXMLDocument.fxml").toUri().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setTitle("Graph visualiser");

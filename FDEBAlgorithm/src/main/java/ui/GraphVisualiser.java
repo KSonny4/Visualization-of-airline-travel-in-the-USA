@@ -119,7 +119,7 @@ public class GraphVisualiser implements Initializable, Observer {
         iterationsCountTextField.setText(String.valueOf(inputIterationsCount));
         cyclesCountTextField.setText(String.valueOf(inputCyclesCount));
 
-        IOParser IOParser = new IOParser("src/main/resources/airlines.graphml");
+        IOParser IOParser = new IOParser("FDEBAlgorithm/src/main/resources/airlines.graphml");
 //        IOParser IOParser = new IOParser("src/main/resources/migrations.xml");
 
         Node[] nodes = IOParser.getNodes();
@@ -268,11 +268,11 @@ public class GraphVisualiser implements Initializable, Observer {
         textFields.add(iterationsCountTextField);
         textFields.add(cyclesCountTextField);
         textFields.add(edgeStiffnessTextField);
-        readTextField(compatibilityTextField);
-        readTextField(stepSizeTextField);
-        readTextField(iterationsCountTextField);
-        readTextField(cyclesCountTextField);
-        readTextField(edgeStiffnessTextField);
+//        readTextField(compatibilityTextField);
+//        readTextField(stepSizeTextField);
+//        readTextField(iterationsCountTextField);
+//        readTextField(cyclesCountTextField);
+//        readTextField(edgeStiffnessTextField);
         addMouseScrolling(canvas);
         canvasScaleX = 1.0;
         canvasScaleY = 1.0;
